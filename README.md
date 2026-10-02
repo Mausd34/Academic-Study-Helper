@@ -1,40 +1,54 @@
 # Academic Study Helper
 
-Personal mobile-first academic productivity app for Masud Rana (ID 22303062), Fall 2026.
+A mobile-first personal academic productivity PWA for Masud Rana (CSE, IUBAT) — Fall 2026.
 
-## Included
-- Fall 2026 routine preloaded
-- Per-course attendance
-- Assignment/deadline tracker
-- Pomodoro and deep-work timer
-- Local notes
-- Bangladesh Taka expense tracker
-- Python, SQL, ML, FastAPI and Flutter skill roadmap
-- Four-month career roadmap
-- Offline-first study assistant with simple English and Bangla
-- JSON export/import backup
-- Dark mode
-- Installable PWA
-- Offline cache
-- GitHub Pages deployment
+## Live app
+GitHub Pages: https://mausd34.github.io/Academic-Study-Helper/
+
+## Features
+- 📊 Dashboard with today's classes, attendance, assignments, expenses and skill progress
+- 🗓️ Fall 2026 weekly routine with automatic current-day selection
+- ✅ Per-course attendance tracker
+- 📝 Assignment/deadline tracker with search, due dates and priority
+- ⏱️ Pomodoro focus timer with completed-session statistics
+- 📚 Course notes with search and local storage
+- 💰 Bangladesh Taka expense tracker with dates/categories
+- ⚡ Python, SQL, ML, Data Analysis, Git/GitHub, FastAPI, Flutter and DSA skill tracker
+- 🚀 Four-month career roadmap
+- ✦ Offline study assistant with simple English + Bangla explanations
+- 🌙 Dark mode
+- 📱 Installable PWA
+- 📴 Offline cache with service worker
+- 💾 JSON export + import backup
+- 🔒 Local-first privacy: no analytics and no API keys in the frontend
 
 ## Stack
-HTML + CSS + JavaScript + LocalStorage + Service Worker.
+HTML + CSS + vanilla JavaScript + LocalStorage + Service Worker + GitHub Pages.
 
-The current assistant is local-first. Do not put a private LLM API key in this public frontend. A future FastAPI backend can provide secure AI integration and cloud sync.
+## Run locally
+Serve the folder with any static web server. For example:
 
-## Local run
-Open index.html directly, or serve the folder with a local static server such as Python's http.server.
+```bash
+python -m http.server 8000
+```
 
-## GitHub Pages
-The repository contains a GitHub Actions workflow that deploys the root directory to GitHub Pages whenever main changes.
+Then open http://localhost:8000
 
-Expected project URL:
-https://mausd34.github.io/Academic-Study-Helper/
+## Data
+The app stores academic data in browser LocalStorage. Use **Settings → Export JSON** regularly. **Settings → Import JSON** can restore a backup on the same or another browser.
+
+## AI
+The current assistant is intentionally offline. A real LLM should be connected through a secure backend such as FastAPI; never place a private provider API key in this public repository.
+
+## Deployment
+GitHub Actions deploys the root project to GitHub Pages when `main` changes.
 
 ## Roadmap
-Phase 2: FastAPI, PostgreSQL, authentication, secure AI provider, cloud sync, real ML model, notifications.
-Phase 3: Flutter Android client using the same API, AI quiz generation, PDF note import, calendar sync and GitHub analytics.
-
-## Privacy
-Academic records, notes, tasks and expenses are stored in this browser's localStorage. Do not enter secrets or passwords.
+- FastAPI + PostgreSQL cloud sync
+- Secure authentication
+- Real LLM study assistant
+- AI quiz/MCQ generation
+- PDF note import
+- Calendar/notification integration
+- Flutter Android client
+- ML-based study recommendations

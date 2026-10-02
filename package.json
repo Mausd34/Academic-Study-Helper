@@ -1,0 +1,13 @@
+{
+  "name": "academic-study-helper",
+  "version": "4.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal academic productivity PWA for Masud Rana (CSE, IUBAT).",
+  "scripts": {
+    "check": "node tools/check-syntax.mjs",
+    "test": "node tools/test-core.mjs",
+    "serve": "node tools/serve.mjs"
+  },
+  "license": "MIT"
+}

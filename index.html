@@ -1,35 +1,96 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1220"><meta name="description" content="Masud's personal Academic Study Helper">
-<link rel="manifest" href="manifest.json"><title>Academic Study Helper</title><link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="Academic Study Helper — personal academic productivity system for Masud Rana, CSE, IUBAT.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Study Helper">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./assets/icons/favicon.svg" type="image/svg+xml">
+<title>Academic Study Helper</title>
+<link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<div id="toast" class="toast"></div>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
+
 <div class="app-shell">
-<aside class="sidebar" id="sidebar">
-<div class="brand"><div class="brand-mark">🎓</div><div><strong>Study Helper</strong><span>Masud's personal OS</span></div></div>
-<nav>
-<button class="nav-item active" data-page="dashboard">⌂ <span>Dashboard</span></button>
-<button class="nav-item" data-page="routine">▦ <span>Routine</span></button>
-<button class="nav-item" data-page="attendance">✓ <span>Attendance</span></button>
-<button class="nav-item" data-page="tasks">☑ <span>Assignments</span></button>
-<button class="nav-item" data-page="study">⏱ <span>Study Timer</span></button>
-<button class="nav-item" data-page="notes">✎ <span>Notes</span></button>
-<button class="nav-item" data-page="expenses">৳ <span>Expenses</span></button>
-<button class="nav-item" data-page="skills">⚡ <span>Skills</span></button>
-<button class="nav-item" data-page="career">🚀 <span>Career</span></button>
-<button class="nav-item" data-page="assistant">✦ <span>AI Study Assistant</span></button>
-<button class="nav-item" data-page="settings">⚙ <span>Settings</span></button>
-</nav>
-<div class="sidebar-footer"><div class="profile-mini"><div class="avatar">MR</div><div><strong>Masud Rana</strong><small>ID 22303062</small></div></div><small>Fall 2026 · 4 month plan</small></div>
-</aside>
-<main class="main">
-<header class="topbar"><div class="top-left"><button class="icon-btn mobile-only" id="menuBtn">☰</button><div><div class="eyebrow">FALL 2026</div><h1 id="pageTitle">Dashboard</h1></div></div><div class="top-actions"><button class="icon-btn" id="installBtn">⬇</button><button class="icon-btn" id="themeBtn">☾</button></div></header>
-<section class="content">
-<div id="page-dashboard" class="page active"></div><div id="page-routine" class="page"></div><div id="page-attendance" class="page"></div><div id="page-tasks" class="page"></div><div id="page-study" class="page"></div><div id="page-notes" class="page"></div><div id="page-expenses" class="page"></div><div id="page-skills" class="page"></div><div id="page-career" class="page"></div><div id="page-assistant" class="page"></div><div id="page-settings" class="page"></div>
-</section>
-</main></div>
-<script src="app.js"></script>
-</body></html>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">🎓</div>
+      <div class="brand-text">
+        <strong>Study Helper</strong>
+        <span id="brandTagline">Masud's academic OS</span>
+      </div>
+      <button class="icon-btn sidebar-close" id="sidebarClose" aria-label="Close navigation"><span aria-hidden="true">✕</span></button>
+    </div>
+    <nav class="nav-list" id="navList" aria-label="Pages"></nav>
+    <div class="sidebar-footer">
+      <div class="profile-mini">
+        <div class="avatar" id="sidebarAvatar">MR</div>
+        <div class="profile-mini-text">
+          <strong id="sidebarName">Masud Rana</strong>
+          <small id="sidebarSub">IUBAT · CSE</small>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main" id="mainContent">
+    <header class="topbar">
+      <div class="top-left">
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar"><span aria-hidden="true">☰</span></button>
+        <div class="top-title">
+          <div class="eyebrow" id="topEyebrow">FALL 2026</div>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="searchBtn" aria-label="Open search" title="Search (Ctrl+K)"><span aria-hidden="true">🔍</span></button>
+        <button class="icon-btn" id="installBtn" aria-label="Install app" title="Install app" hidden><span aria-hidden="true">⬇</span></button>
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme"><span aria-hidden="true" id="themeIcon">☾</span></button>
+      </div>
+    </header>
+    <section class="content" id="content" tabindex="-1">
+      <div id="viewRoot" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Primary"></nav>
+</div>
+
+<div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
+
+<div class="modal-root" id="modalRoot" hidden>
+  <div class="modal-scrim" data-close-modal></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <header class="modal-head">
+      <h2 id="modalTitle">Title</h2>
+      <button class="icon-btn" data-close-modal aria-label="Close dialog"><span aria-hidden="true">✕</span></button>
+    </header>
+    <div class="modal-body" id="modalBody"></div>
+    <footer class="modal-foot" id="modalFoot"></footer>
+  </div>
+</div>
+
+<div class="palette-root" id="paletteRoot" hidden>
+  <div class="palette-scrim" data-close-palette></div>
+  <div class="palette" role="dialog" aria-modal="true" aria-label="Command center">
+    <div class="palette-input-row">
+      <span aria-hidden="true">🔍</span>
+      <input id="paletteInput" type="text" autocomplete="off" placeholder="Search or run a command…" aria-label="Search or run a command">
+      <kbd>Esc</kbd>
+    </div>
+    <div class="palette-results" id="paletteResults" role="listbox"></div>
+    <footer class="palette-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd> toggle</span></footer>
+  </div>
+</div>
+
+<noscript><div style="padding:24px;font-family:system-ui">Academic Study Helper needs JavaScript enabled to run.</div></noscript>
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

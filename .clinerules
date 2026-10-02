@@ -1,0 +1,69 @@
+# Academic Study Helper — Cline Rules & Architecture Guide
+
+## 1. Project Overview & Constraints
+* **Context**: Personal academic productivity PWA for **Masud Rana** (CSE, IUBAT, Fall 2026).
+* **Architecture**: Offline-first Single Page Application (SPA) with App Shell model.
+* **Strict Constraint — ZERO Runtime Dependencies**:
+  - Pure Vanilla JavaScript (ES2022+ Native ES Modules).
+  - No bundlers (No Vite, Webpack, Parcel, Babel, Rollup).
+  - No external UI libraries (No React, Vue, Tailwind, Bootstrap).
+  - Do **NOT** run `npm install <package>`. Keep `dependencies` empty.
+
+---
+
+## 2. ES Module Import Rules (Critical)
+* **Always include file extensions**: In native browser ESM, omitting `.js` causes silent browser failures.
+  - ✅ `import { getState, dispatch } from './js/core/store.js';`
+  - ❌ `import { getState, dispatch } from './js/core/store';` (WILL BREAK IN BROWSER)
+* Dynamic imports (e.g., in Command Palette or Router) must also use full relative paths with `.js`.
+
+---
+
+## 3. Node.js vs. Browser Runtime Boundary
+* **Browser-only code**: `js/app.js`, `js/views/*`, and `js/core/ui.js` rely directly on `window`, `document`, and browser APIs.
+  - Do **NOT** run `node js/app.js` or `node js/views/<view>.js` directly in terminal. It will crash with `ReferenceError: document is not defined`.
+* **Testing**:
+  - `tools/test-core.mjs` runs headless unit tests for core logic (analytics, forecasting, routine, safety, assistant).
+  - `tools/test-storage.mjs` tests LocalStorage serialization with a mock storage provider.
+  - `tools/check-syntax.mjs` checks syntax for every file without executing DOM code.
+  - `tools/check-imports.mjs` verifies all import/export paths across the codebase.
+
+---
+
+## 4. State Management & Storage Integrity
+* **Storage Key**: Active key is `'academic-study-helper-v4'`.
+* **Central Store**: Located at `js/core/store.js`. Always read state with `getState()` and mutate via `dispatch(action, payload)` or `updateState(fn)`.
+* **Schema Evolution**:
+  - If adding any new data field, you **must** update `defaultData()` and `sanitizeState()` in `js/core/storage.js`.
+  - Ensure missing fields are safely defaulted so existing user local storage does not fail or read `undefined`.
+
+---
+
+## 5. Bilingual Support (i18n Parity)
+* All user-facing strings belong in `js/core/i18n.js`.
+* **Strict 1:1 Parity**: Every key present in `en` **MUST** also be translated and present in `bn` (Bengali).
+* `npm test` automatically tests i18n key equivalence. If parity is missing, the test suite will fail.
+
+---
+
+## 6. Service Worker & Cache Handling
+* Cache is managed by `sw.js`.
+* When modifying HTML, CSS, or JS modules, remember that active Service Workers cache assets.
+* When testing locally:
+  - Serve using `npm run serve` (runs `tools/serve.mjs` on port 8123).
+  - For browser testing, bypass or clear service worker caches (`navigator.serviceWorker.getRegistrations()`, `caches.delete()`) to prevent stale cached code.
+
+---
+
+## 7. Security & Accessibility
+* **XSS Prevention**: Never insert unsanitized user content into `innerHTML`. Always wrap dynamic text with `esc(text)` from `js/core/utils.js`.
+* **Markdown**: Render markdown using `renderMarkdown()` from `js/core/utils.js`, which sanitizes and strips dangerous `javascript:` protocols.
+* **Accessibility**: Maintain semantic landmarks (`<header>`, `<main>`, `<aside>`, `<nav>`), skip links, and ARIA roles for dialogs and live regions.
+
+---
+
+## 8. Verification Workflow (Mandatory on Every Change)
+Before concluding any task, always execute:
+1. `npm run check` — ensures 100% syntax validity and verifies all ES module import paths resolve.
+2. `npm test` — runs all 29 core unit tests (safety, forecasting, analytics, assistant, routine, and i18n parity).
+Both commands must pass with zero failures.

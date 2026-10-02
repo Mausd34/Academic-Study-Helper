@@ -2,7 +2,7 @@
  * Small shared presentational pieces reused by several views.
  */
 import { esc, formatDate, daysUntil, formatHours, formatMoney } from './utils.js';
-import { card, emptyState, badge, progressBar, statCard } from './ui.js';
+import { card, emptyState, badge, progressBar, statCard, segmented } from './ui.js';
 import { ringChart } from './charts.js';
 
 export const CLASS_STATUS = {
@@ -70,4 +70,4 @@ export const statRow = (items) => `<section class="stat-grid">${items
   .map((item) => statCard(item.label, item.value, item.sub || '', item.tone || ''))
   .join('')}</section>`;
 
-export { card, emptyState, badge, progressBar, statCard, ringChart, esc, formatDate, formatHours, formatMoney };
+export { card, emptyState, badge, progressBar, statCard, segmented, ringChart, esc, formatDate, formatHours, formatMoney };

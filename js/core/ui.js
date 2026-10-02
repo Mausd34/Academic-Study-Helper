@@ -191,6 +191,36 @@ export function bindForm(formEl, fields, onSubmit) {
   }
 }
 
+/** Simple duplicate-guard so the same reminder is not fired twice per session. */
+const firedKeys = new Set();
+
+/**
+ * Browser notification (never spams: de-duplicated per key).
+ * Silently does nothing when permission is not granted.
+ */
+export function notify(title, body = '', { key = '' } = {}) {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  if (key && firedKeys.has(key)) return;
+  if (key) firedKeys.add(key);
+  try {
+    // eslint-disable-next-line no-new
+    new Notification(title, { body, icon: './assets/icons/icon-192.png' });
+  } catch (error) {
+    console.warn('[notify] failed', error);
+  }
+}
+
+export async function requestNotificationPermission() {
+  if (!('Notification' in window)) return 'unsupported';
+  if (Notification.permission === 'granted') return 'granted';
+  try {
+    return await Notification.requestPermission();
+  } catch (error) {
+    console.warn('[notify] permission request failed', error);
+    return 'denied';
+  }
+}
+
 /* -------------------------------------------------------- shared fragments */
 
 export const emptyState = (title, message, action = '') => `

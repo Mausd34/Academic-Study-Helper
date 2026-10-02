@@ -1,5 +1,27 @@
 {
-"name":"Academic Study Helper","short_name":"Study Helper","description":"Masud's personal academic productivity dashboard.",
-"start_url":"./","display":"standalone","background_color":"#f4f7fb","theme_color":"#0b1220","orientation":"portrait-primary",
-"icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E","sizes":"any","type":"image/svg+xml"}]
+  "name": "Academic Study Helper",
+  "short_name": "Study Helper",
+  "description": "Personal academic productivity system for Masud Rana — routine, attendance, assignments, exams, study sessions, notes, expenses, skills and career planning. Works offline.",
+  "id": "/Academic-Study-Helper/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#f4f7fb",
+  "theme_color": "#0b1220",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icons/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Today's classes", "short_name": "Routine", "url": "./index.html#/routine" },
+    { "name": "Assignments", "short_name": "Tasks", "url": "./index.html#/tasks" },
+    { "name": "Start a focus session", "short_name": "Focus", "url": "./index.html#/study" },
+    { "name": "Attendance", "short_name": "Attendance", "url": "./index.html#/attendance" }
+  ]
 }

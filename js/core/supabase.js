@@ -25,3 +25,4 @@ if (SUPABASE_CONFIGURED) {
 
 export const supabase = _supabase;
 export { SUPABASE_CONFIGURED };
+

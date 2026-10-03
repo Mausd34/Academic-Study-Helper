@@ -100,3 +100,4 @@ export function disableSync() {
 }
 
 export { SUPABASE_CONFIGURED };
+

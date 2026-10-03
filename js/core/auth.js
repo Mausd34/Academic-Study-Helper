@@ -60,3 +60,4 @@ export function onAuthChange(callback) {
 }
 
 export { SUPABASE_CONFIGURED };
+

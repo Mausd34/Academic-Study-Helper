@@ -5,8 +5,8 @@
  */
 import { request } from 'node:http';
 
-const APP_URL = process.argv[2] || 'http://localhost:8123/';
-const CDP = 'http://localhost:9222';
+const APP_URL = process.argv[2] || 'http://127.0.0.1:8123/';
+const CDP = 'http://127.0.0.1:9222';
 
 const getJson = (path) => new Promise((resolve, reject) => {
   request(`${CDP}${path}`, (res) => {
@@ -112,7 +112,8 @@ if (!target) {
   process.exit(1);
 }
 
-const session = await Session.open(target.webSocketDebuggerUrl);
+const wsUrl = (target.webSocketDebuggerUrl || '').replace('localhost', '127.0.0.1');
+const session = await Session.open(wsUrl);
 await session.send('Runtime.enable');
 await session.send('Page.enable');
 

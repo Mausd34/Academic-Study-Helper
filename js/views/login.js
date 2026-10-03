@@ -174,3 +174,4 @@ export function renderLogin(container, onSkip) {
   container.innerHTML = html('signin');
   wireAuth(container, onSkip);
 }
+

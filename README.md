@@ -59,6 +59,14 @@ This project is designed around a very simple student journey:
 
 This makes the app easier to understand even for a person who is not technical, because the flow matches real student life rather than abstract code architecture.
 
+## 🧩 Project Base Overview
+
+<p align="center">
+  <img src="assets/project-base-clarity.svg" alt="Project base overview" width="1200" />
+</p>
+
+This image shows the clear project base in plain language: the app helps students plan, track, and improve their academic life in one place.
+
 ---
 
 ## 👨‍💻 About the Developer

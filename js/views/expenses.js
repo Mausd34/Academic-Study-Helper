@@ -7,7 +7,7 @@ import { expenseTotals, expenseByCategory, monthlyExpenseSeries } from '../core/
 import { donutChart, barChart } from '../core/charts.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
 import { expenseFields, EXPENSE_CATEGORIES } from '../core/forms.js';
-import { card, emptyState, badge, statRow } from '../core/parts.js';
+import { card, emptyState, badge, statRow, attach } from '../core/parts.js';
 
 let categoryFilter = 'all';
 let query = '';
@@ -113,23 +113,25 @@ export function renderExpenses(root) {
 }
 
 function wire(root) {
-  const search = root.querySelector('#expSearch');
-  if (search) {
-    search.addEventListener('input', debounce((event) => {
-      query = event.target.value;
-      renderExpenses(root);
-      const next = root.querySelector('#expSearch');
-      if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
-    }, 260));
-  }
-  root.addEventListener('change', (event) => {
-    if (event.target.id === 'expCategory') { categoryFilter = event.target.value; renderExpenses(root); }
-  });
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.hasAttribute('data-add-exp')) return openExpenseForm();
-    if (el.dataset.editExp) return openExpenseForm(el.dataset.editExp);
-    if (el.dataset.delExp) return removeExpense(el.dataset.delExp);
+  attach(root, ({ signal }) => {
+    const search = root.querySelector('#expSearch');
+    if (search) {
+      search.addEventListener('input', debounce((event) => {
+        query = event.target.value;
+        renderExpenses(root);
+        const next = root.querySelector('#expSearch');
+        if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
+      }, 260), { signal });
+    }
+    root.addEventListener('change', (event) => {
+      if (event.target.id === 'expCategory') { categoryFilter = event.target.value; renderExpenses(root); }
+    }, { signal });
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.hasAttribute('data-add-exp')) return openExpenseForm();
+      if (el.dataset.editExp) return openExpenseForm(el.dataset.editExp);
+      if (el.dataset.delExp) return removeExpense(el.dataset.delExp);
+    }, { signal });
   });
 }

@@ -26,13 +26,21 @@ GitHub Pages: https://mausd34.github.io/Academic-Study-Helper/
 HTML + CSS + vanilla JavaScript + LocalStorage + Service Worker + GitHub Pages.
 
 ## Run locally
-Serve the folder with any static web server. For example:
+Serve the folder with any static web server. ES modules will not load from `file://`, so use a server:
 
 ```bash
-python -m http.server 8000
+npm run serve                      # static server on http://localhost:8000
+npm run serve -- 8123              # or pick a port (the browser tests expect 8123)
 ```
 
-Then open http://localhost:8000
+After editing anything, clear the service worker cache (DevTools → Application → Clear site data) so you are not looking at a stale bundle.
+
+## Verification
+```bash
+npm run check      # JS syntax + ES import paths + styles.css brace/rule integrity
+npm test           # 29 core unit tests + 8 storage/migration tests
+```
+Both must pass with zero failures before pushing.
 
 ## Data
 The app stores academic data in browser LocalStorage. Use **Settings → Export JSON** regularly. **Settings → Import JSON** can restore a backup on the same or another browser.

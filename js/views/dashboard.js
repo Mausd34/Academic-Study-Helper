@@ -8,7 +8,7 @@ import { todayClassesWithStatus, nextClass, minutesUntilNext } from '../core/rou
 import { attendanceTotals, taskCounts, studyStats, expenseTotals, skillAverage, weeklyStudyMinutes } from '../core/analytics.js';
 import { buildPriorities, attendanceRisks } from '../core/recommend.js';
 import { ringChart, barChart } from '../core/charts.js';
-import { card, emptyState, badge, progressBar, classRow, deadlineList, goalList, statRow } from '../core/parts.js';
+import { card, emptyState, badge, progressBar, classRow, deadlineList, goalList, statRow, attach } from '../core/parts.js';
 
 const PRIORITY_TONE = { exam: 'danger', task: 'warning', attendance: 'danger', skill: 'info', consistency: 'muted' };
 
@@ -105,6 +105,8 @@ export function renderDashboard(root) {
     </div>`;
 
   startLiveClock();
+  // Detach any listeners left by a previous dashboard render.
+  attach(root, () => {});
 }
 
 /** Keep the header clock fresh without re-rendering the whole view. */

@@ -8,7 +8,7 @@ import { createTimer, setMode, reset, skip, toggle, timerProgress, MODES } from 
 import { barChart, lineChart, hBarChart } from '../core/charts.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr, notify } from '../core/ui.js';
 import { sessionFields } from '../core/forms.js';
-import { card, emptyState, badge, statRow } from '../core/parts.js';
+import { card, emptyState, badge, statRow, attach } from '../core/parts.js';
 
 const timer = createTimer(getState().settings.pomodoro);
 let rootRef = null;
@@ -167,16 +167,18 @@ export function renderStudy(root) {
 }
 
 function wire(root) {
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.dataset.timer === 'toggle') return void toggle(timer);
-    if (el.dataset.timer === 'reset') return void reset(timer);
-    if (el.dataset.timer === 'skip') return void skip(timer);
-    if (el.dataset.mode) return void setMode(timer, el.dataset.mode);
-    if (el.hasAttribute('data-add-session')) return openSessionForm();
-    if (el.dataset.editSession) return openSessionForm(el.dataset.editSession);
-    if (el.dataset.delSession) return removeSession(el.dataset.delSession);
+  attach(root, ({ signal }) => {
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.dataset.timer === 'toggle') return void toggle(timer);
+      if (el.dataset.timer === 'reset') return void reset(timer);
+      if (el.dataset.timer === 'skip') return void skip(timer);
+      if (el.dataset.mode) return void setMode(timer, el.dataset.mode);
+      if (el.hasAttribute('data-add-session')) return openSessionForm();
+      if (el.dataset.editSession) return openSessionForm(el.dataset.editSession);
+      if (el.dataset.delSession) return removeSession(el.dataset.delSession);
+    }, { signal });
   });
 }
 

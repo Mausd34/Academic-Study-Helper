@@ -168,6 +168,13 @@ h3 { font-size: 15px; }
 .topbar h1 { font-size: 22px; margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .top-actions { display: flex; gap: 8px; flex: none; }
 
+.scrim { position: fixed; inset: 0; z-index: 35; background: rgba(6, 10, 18, .55); }
+.scrim[hidden] { display: none; }
+
+/* Nothing may push the page sideways on small screens. */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, svg, pre { max-width: 100%; }
+
 /* ------------------------------------------------------------------ cards */
 
 .card {
@@ -403,6 +410,32 @@ input[type='range'] { padding: 0; height: 28px; }
   display: inline-block;
   padding: 3px 8px;
   border-radius: 7px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.tag-list { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+.legend-list { flex-direction: row; flex-wrap: wrap; gap: 12px; }
+.legend-list li, .cal-legend li { display: flex; align-items: center; gap: 6px; font-size: 12.5px; }
+
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.dot-inline { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-left: 6px; }
+.dot-class { background: #635bff; }
+.dot-exam { background: #ef4444; }
+.dot-task { background: #f59e0b; }
+.dot-study { background: #10b981; }
+.dot-event { background: #8b5cf6; }
+
+.all-clear { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+/* ----------------------------------------------------------------- tables */
+
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 520px; }
+.data-table th, .data-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.data-table th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 800; white-space: nowrap; }
+.data-table tbody tr:hover { background: var(--panel-2); }
 
 /* ----------------------------------------------------------------- charts */
 
@@ -596,6 +629,8 @@ input[type='range'] { padding: 0; height: 28px; }
 
 /* ----------------------------------------------------------------- modal */
 
+/* Hidden overlays must never create a scrollbar or affect layout. */
+.modal-root[hidden], .palette-root[hidden] { display: none; }
 .modal-root, .palette-root { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 16px; }
 .modal-scrim, .palette-scrim { position: absolute; inset: 0; background: rgba(6, 10, 18, .6); backdrop-filter: blur(3px); }
 .modal, .palette {
@@ -655,6 +690,20 @@ kbd { padding: 2px 6px; border: 1px solid var(--line); border-bottom-width: 2px;
 .toast {
   padding: 11px 15px;
   border-radius: 12px;
+  background: #101827;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .2s, transform .2s;
+}
+.toast.show { opacity: 1; transform: none; }
+.toast-success { background: #0b7f5a; }
+.toast-error { background: #b3222f; }
+.toast-warn { background: #a06a00; }
+.toast-info { background: #0f5c8a; }
 
 /* ------------------------------------------------------------ responsive */
 

@@ -6,7 +6,7 @@ import { getState, list, update } from '../core/store.js';
 import { defaultRoadmap } from '../core/plans.js';
 import { ringChart } from '../core/charts.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
-import { card, emptyState, badge, progressBar, statRow } from '../core/parts.js';
+import { card, emptyState, badge, progressBar, statRow, attach } from '../core/parts.js';
 
 const PROJECT_STATUSES = ['Planned', 'Building', 'Shipped'];
 
@@ -191,39 +191,41 @@ export function renderCareer(root) {
 }
 
 function wire(root) {
-  root.addEventListener('change', (event) => {
-    const input = event.target;
-    if (input.dataset.toggleItem) toggleItem(input.dataset.month, input.dataset.toggleItem);
-  });
+  attach(root, ({ signal }) => {
+    root.addEventListener('change', (event) => {
+      const input = event.target;
+      if (input.dataset.toggleItem) toggleItem(input.dataset.month, input.dataset.toggleItem);
+    }, { signal });
 
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.hasAttribute('data-load-plan')) { ensureRoadmap(); toastOk('Roadmap loaded.'); return; }
-    if (el.dataset.itemNotes) return itemNotes(el.dataset.month, el.dataset.itemNotes);
-    if (el.hasAttribute('data-add-project')) return openProjectForm();
-    if (el.dataset.editProject) return openProjectForm(el.dataset.editProject);
-    if (el.dataset.delProject) {
-      const ok = await confirmDialog({ title: 'Delete project?', message: 'This project will be removed from your portfolio.', confirmLabel: 'Delete' });
-      if (ok) { list.remove('portfolioProjects', el.dataset.delProject); toastOk('Project deleted.'); }
-      return;
-    }
-    if (el.dataset.bump) {
-      const project = list.find('portfolioProjects', el.dataset.bump);
-      if (!project) return;
-      const next = clamp((project.progress || 0) + 10);
-      list.patch('portfolioProjects', project.id, { progress: next });
-      toastOk(`${project.name}: ${next}%`);
-      return;
-    }
-    if (el.dataset.goal) {
-      const goal = list.find('careerGoals', el.dataset.goal);
-      if (goal) list.patch('careerGoals', goal.id, { progress: clamp((goal.progress || 0) + Number(el.dataset.delta)) });
-      return;
-    }
-    if (el.dataset.delGoal) {
-      list.remove('careerGoals', el.dataset.delGoal);
-      toastOk('Goal removed.');
-    }
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.hasAttribute('data-load-plan')) { ensureRoadmap(); toastOk('Roadmap loaded.'); return; }
+      if (el.dataset.itemNotes) return itemNotes(el.dataset.month, el.dataset.itemNotes);
+      if (el.hasAttribute('data-add-project')) return openProjectForm();
+      if (el.dataset.editProject) return openProjectForm(el.dataset.editProject);
+      if (el.dataset.delProject) {
+        const ok = await confirmDialog({ title: 'Delete project?', message: 'This project will be removed from your portfolio.', confirmLabel: 'Delete' });
+        if (ok) { list.remove('portfolioProjects', el.dataset.delProject); toastOk('Project deleted.'); }
+        return;
+      }
+      if (el.dataset.bump) {
+        const project = list.find('portfolioProjects', el.dataset.bump);
+        if (!project) return;
+        const next = clamp((project.progress || 0) + 10);
+        list.patch('portfolioProjects', project.id, { progress: next });
+        toastOk(`${project.name}: ${next}%`);
+        return;
+      }
+      if (el.dataset.goal) {
+        const goal = list.find('careerGoals', el.dataset.goal);
+        if (goal) list.patch('careerGoals', goal.id, { progress: clamp((goal.progress || 0) + Number(el.dataset.delta)) });
+        return;
+      }
+      if (el.dataset.delGoal) {
+        list.remove('careerGoals', el.dataset.delGoal);
+        toastOk('Goal removed.');
+      }
+    }, { signal });
   });
 }

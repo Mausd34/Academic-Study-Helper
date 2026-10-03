@@ -9,7 +9,7 @@ import { attendanceForecast, WEIGHTS } from '../core/recommend.js';
 import { hBarChart, donutChart, ringChart } from '../core/charts.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
 import { attendanceFields } from '../core/forms.js';
-import { card, emptyState, badge, progressBar, statRow } from '../core/parts.js';
+import { card, emptyState, badge, progressBar, statRow, attach } from '../core/parts.js';
 
 let filterCourse = 'all';
 let showHistory = false;
@@ -165,26 +165,28 @@ export function renderAttendance(root) {
 }
 
 function wire(root) {
-  root.addEventListener('input', (event) => {
-    if (event.target.id !== 'attTarget') return;
-    const value = Number(event.target.value);
-    const out = document.getElementById('attTargetOut');
-    if (out) out.textContent = `${value}%`;
-    setSetting('attendanceTarget', value);
-  });
+  attach(root, ({ signal }) => {
+    root.addEventListener('input', (event) => {
+      if (event.target.id !== 'attTarget') return;
+      const value = Number(event.target.value);
+      const out = document.getElementById('attTargetOut');
+      if (out) out.textContent = `${value}%`;
+      setSetting('attendanceTarget', value);
+    }, { signal });
 
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.dataset.mark) return markAttendance(el.dataset.course, el.dataset.mark);
-    if (el.dataset.undo) return undoAttendance(el.dataset.undo);
-    if (el.dataset.filter) { filterCourse = el.dataset.filter; return renderAttendance(root); }
-    if (el.dataset.editCourse) return openAttendanceForm(null);
-    if (el.dataset.delAtt) {
-      const ok = await confirmDialog({ title: 'Delete record?', message: 'This attendance record will be removed.', confirmLabel: 'Delete' });
-      if (ok) { list.remove('attendance', el.dataset.delAtt); toastOk('Record deleted.'); }
-      return;
-    }
-    if (el.hasAttribute('data-add-att')) return openAttendanceForm();
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.dataset.mark) return markAttendance(el.dataset.course, el.dataset.mark);
+      if (el.dataset.undo) return undoAttendance(el.dataset.undo);
+      if (el.dataset.filter) { filterCourse = el.dataset.filter; return renderAttendance(root); }
+      if (el.dataset.editCourse) return openAttendanceForm(null);
+      if (el.dataset.delAtt) {
+        const ok = await confirmDialog({ title: 'Delete record?', message: 'This attendance record will be removed.', confirmLabel: 'Delete' });
+        if (ok) { list.remove('attendance', el.dataset.delAtt); toastOk('Record deleted.'); }
+        return;
+      }
+      if (el.hasAttribute('data-add-att')) return openAttendanceForm();
+    }, { signal });
   });
 }

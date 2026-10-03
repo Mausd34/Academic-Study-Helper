@@ -32,6 +32,7 @@ const SHELL = [
   './js/core/timer.js',
   './js/core/palette.js',
   './js/core/reminders.js',
+  './js/core/theme.js',
   './js/views/dashboard.js',
   './js/views/routine.js',
   './js/views/attendance.js',

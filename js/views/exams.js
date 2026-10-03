@@ -5,7 +5,7 @@ import { esc, formatDate, daysUntil, countdownLabel, sortBy, clamp, todayKey } f
 import { getState, list } from '../core/store.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
 import { examFields, EXAM_TYPES } from '../core/forms.js';
-import { card, emptyState, badge, progressBar, statRow } from '../core/parts.js';
+import { card, emptyState, badge, progressBar, statRow, attach } from '../core/parts.js';
 
 const TYPE_TONE = { Quiz: 'info', Midterm: 'warning', Final: 'danger', Lab: 'info', Viva: 'muted', Presentation: 'muted' };
 
@@ -99,18 +99,20 @@ export function renderExams(root) {
 }
 
 function wire(root) {
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.hasAttribute('data-add-exam')) return openExamForm();
-    if (el.dataset.edit) return openExamForm(el.dataset.edit);
-    if (el.dataset.del) return removeExam(el.dataset.del);
-    if (el.dataset.bumpPrep) {
-      const exam = list.find('exams', el.dataset.bumpPrep);
-      if (!exam) return;
-      const next = clamp((exam.prep || 0) + 10);
-      list.patch('exams', exam.id, { prep: next });
-      toastOk(`Preparation for ${exam.title} is now ${next}%.`);
-    }
+  attach(root, ({ signal }) => {
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.hasAttribute('data-add-exam')) return openExamForm();
+      if (el.dataset.edit) return openExamForm(el.dataset.edit);
+      if (el.dataset.del) return removeExam(el.dataset.del);
+      if (el.dataset.bumpPrep) {
+        const exam = list.find('exams', el.dataset.bumpPrep);
+        if (!exam) return;
+        const next = clamp((exam.prep || 0) + 10);
+        list.patch('exams', exam.id, { prep: next });
+        toastOk(`Preparation for ${exam.title} is now ${next}%.`);
+      }
+    }, { signal });
   });
 }

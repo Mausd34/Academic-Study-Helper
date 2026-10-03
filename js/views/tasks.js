@@ -7,7 +7,7 @@ import { taskCounts, taskCompletionSeries } from '../core/analytics.js';
 import { barChart } from '../core/charts.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
 import { taskFields, PRIORITIES } from '../core/forms.js';
-import { card, emptyState, badge, statRow } from '../core/parts.js';
+import { card, emptyState, badge, statRow, attach } from '../core/parts.js';
 
 const VIEWS = ['All', 'Today', 'Upcoming', 'Overdue', 'Completed'];
 const PRIORITY_TONE = { Urgent: 'danger', High: 'warning', Medium: 'info', Low: 'muted' };
@@ -165,28 +165,30 @@ export function renderTasks(root) {
 }
 
 function wire(root) {
-  const search = root.querySelector('#taskSearch');
-  if (search) {
-    search.addEventListener('input', debounce((event) => {
-      query = event.target.value;
-      renderTasks(root);
-      const next = root.querySelector('#taskSearch');
-      if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
-    }, 260));
-  }
+  attach(root, ({ signal }) => {
+    const search = root.querySelector('#taskSearch');
+    if (search) {
+      search.addEventListener('input', debounce((event) => {
+        query = event.target.value;
+        renderTasks(root);
+        const next = root.querySelector('#taskSearch');
+        if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
+      }, 260), { signal });
+    }
 
-  root.addEventListener('change', (event) => {
-    if (event.target.id === 'taskSort') { sortByKey = event.target.value; renderTasks(root); }
-    if (event.target.dataset.toggle) toggleTask(event.target.dataset.toggle);
-  });
+    root.addEventListener('change', (event) => {
+      if (event.target.id === 'taskSort') { sortByKey = event.target.value; renderTasks(root); }
+      if (event.target.dataset.toggle) toggleTask(event.target.dataset.toggle);
+    }, { signal });
 
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.dataset.view) { view = el.dataset.view; return renderTasks(root); }
-    if (el.hasAttribute('data-add-task')) return openTaskForm();
-    if (el.dataset.edit) return openTaskForm(el.dataset.edit);
-    if (el.dataset.cycle) return cycleStatus(el.dataset.cycle);
-    if (el.dataset.del) return removeTask(el.dataset.del);
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.dataset.view) { view = el.dataset.view; return renderTasks(root); }
+      if (el.hasAttribute('data-add-task')) return openTaskForm();
+      if (el.dataset.edit) return openTaskForm(el.dataset.edit);
+      if (el.dataset.cycle) return cycleStatus(el.dataset.cycle);
+      if (el.dataset.del) return removeTask(el.dataset.del);
+    }, { signal });
   });
 }

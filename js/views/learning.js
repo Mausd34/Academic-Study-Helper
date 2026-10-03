@@ -5,7 +5,7 @@ import { esc } from '../core/utils.js';
 import { getState, update } from '../core/store.js';
 import { defaultLearningPlan } from '../core/plans.js';
 import { toastOk } from '../core/ui.js';
-import { card, emptyState, badge, progressBar, statRow } from '../core/parts.js';
+import { card, emptyState, badge, progressBar, statRow, attach } from '../core/parts.js';
 
 const plan = () => getState().learningPlan || [];
 
@@ -89,16 +89,18 @@ export function renderLearning(root) {
     ${card('How this connects', `<p class="muted">The learning plan feeds two things: your <strong>Skill tracker</strong> (set progress after finishing a topic) and the <strong>AI Assistant</strong>, which can turn the plan into a dated revision schedule when you add an exam.</p>
       <p class="muted small">This is a planning tool with deterministic, offline behaviour — it does not pretend to generate AI content.</p>`)}`;
 
-  root.addEventListener('change', (event) => {
-    const input = event.target;
-    if (input.dataset.toggleTrack) toggleItem(input.dataset.track, input.dataset.toggleTrack);
-  });
+  attach(root, ({ signal }) => {
+    root.addEventListener('change', (event) => {
+      const input = event.target;
+      if (input.dataset.toggleTrack) toggleItem(input.dataset.track, input.dataset.toggleTrack);
+    }, { signal });
 
-  root.addEventListener('click', (event) => {
-    const el = event.target.closest('button');
-    if (el?.hasAttribute('data-load-plan')) {
-      ensurePlan();
-      toastOk('Learning plan loaded.');
-    }
+    root.addEventListener('click', (event) => {
+      const el = event.target.closest('button');
+      if (el?.hasAttribute('data-load-plan')) {
+        ensurePlan();
+        toastOk('Learning plan loaded.');
+      }
+    }, { signal });
   });
 }

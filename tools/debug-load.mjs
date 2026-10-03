@@ -72,25 +72,67 @@ await new Promise((r) => setTimeout(r, 4500));
 const probe = await send('Runtime.evaluate', {
   expression: `(async () => {
     const out = {};
-    location.hash = '#/routine';
-    await new Promise(r => setTimeout(r, 800));
-    const root = document.getElementById('viewRoot');
-    out.size = root.innerHTML.length;
-    out.navCount = document.querySelectorAll('.nav-item').length;
-    try {
-      const { getState } = await import('./js/core/store.js');
-      const s = getState();
-      out.routine = s.routine.length;
-      out.courses = s.courses.length;
-      out.semesters = s.semesters.length;
-      out.profile = s.profile.name;
-    } catch (e) { out.storeErr = e.message; }
+    const sheets = [...document.styleSheets].map(s => { try { return s.cssRules.length; } catch { return 'blocked'; } });
+    out.sheetRuleCounts = sheets;
+
+    // Theme persistence check.
+    location.hash = '#/settings';
+    await new Promise(r => setTimeout(r, 700));
+    const darkBtn = document.querySelector('[data-theme="dark"]');
+    out.hasDarkButton = !!darkBtn;
+    if (darkBtn) {
+      darkBtn.click();
+      await new Promise(r => setTimeout(r, 500));
+      out.themeAfterClick = document.documentElement.dataset.theme;
+      out.storedTheme = JSON.parse(localStorage.getItem('academic-study-helper-v4')).settings.theme;
+    }
+
+    // Mobile layout check.
     return JSON.stringify(out);
   })()`,
   returnByValue: true,
   awaitPromise: true,
 });
-console.log('\nPROBE:', probe.result?.result?.value ?? JSON.stringify(probe.result));
+console.log('\nPROBE-1:', probe.result?.result?.value ?? JSON.stringify(probe.result));
+
+await send('Emulation.setDeviceMetricsOverride', { width: 360, height: 740, deviceScaleFactor: 1, mobile: true });
+await new Promise((r) => setTimeout(r, 800));
+
+const probe2 = await send('Runtime.evaluate', {
+  expression: `(async () => {
+    const out = {};
+    const nav = document.getElementById('bottomNav');
+    const cs = getComputedStyle(nav);
+    out.display = cs.display;
+    out.position = cs.position;
+    out.matches900 = window.matchMedia('(max-width: 900px)').matches;
+    out.innerWidth = window.innerWidth;
+    out.docClientWidth = document.documentElement.clientWidth;
+    out.metaViewport = document.querySelector('meta[name=viewport]')?.content;
+
+    // Which CSS rules actually set display on .bottom-nav?
+    const hits = [];
+    for (const sheet of document.styleSheets) {
+      let rules; try { rules = sheet.cssRules; } catch { continue; }
+      for (const rule of rules) {
+        if (rule.media) {
+          for (const sub of rule.cssRules) {
+            if (sub.selectorText && sub.selectorText.includes('bottom-nav') && sub.style.display) {
+              hits.push('@media ' + rule.conditionText + ' -> ' + sub.selectorText + ' { display:' + sub.style.display + ' }');
+            }
+          }
+        } else if (rule.selectorText && rule.selectorText.includes('bottom-nav') && rule.style.display) {
+          hits.push('base -> ' + rule.selectorText + ' { display:' + rule.style.display + ' }');
+        }
+      }
+    }
+    out.rules = hits;
+    return JSON.stringify(out);
+  })()`,
+  returnByValue: true,
+  awaitPromise: true,
+});
+console.log('\nPROBE-2 (mobile 360):', probe2.result?.result?.value ?? JSON.stringify(probe2.result));
 
 if (failed.length) console.log('\nFAILED REQUESTS:', [...new Set(failed)].join('\n'));
 ws.close();

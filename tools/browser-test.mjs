@@ -128,10 +128,10 @@ session.ws.addEventListener('message', (event) => {
 });
 
 console.log(`\nLoading ${APP_URL}`);
+await session.send('Network.enable');
+await session.send('Network.setCacheDisabled', { cacheDisabled: true });
 await session.goto(APP_URL);
 await wait(900);
-
-// Always test against the files on disk, never a stale service-worker cache.
 await session.evaluate(`
   const regs = await navigator.serviceWorker.getRegistrations();
   for (const r of regs) await r.unregister();
@@ -141,11 +141,16 @@ await session.evaluate(`
   return true;
 `);
 consoleErrors.length = 0;
-await session.send('Page.navigate', { url: `${APP_URL}?t=${Date.now()}` });
+await session.send('Page.reload', { ignoreCache: true });
 await session.waitFor(() => session.evaluate('return document.readyState === "complete" && !!document.getElementById("viewRoot")?.children.length'), 15000);
 await wait(1300);
 
 console.log('\nboot');
+// Headless Chrome prefers dark; pin it to light so theme tests are meaningful.
+await session.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'light' }] });
+const scheme = await session.evaluate('return window.matchMedia("(prefers-color-scheme: dark)").matches;');
+console.log('  prefers-dark after pin:', scheme);
+
 const navCount = await session.evaluate('return document.querySelectorAll(".nav-item").length');
 check('page title set', await session.evaluate('return document.title.includes("Study Helper")'), await session.evaluate('return document.title'));
 check('no uncaught errors on boot', consoleErrors.length === 0, consoleErrors.join('\n'));
@@ -285,13 +290,18 @@ check('no API key in the loaded scripts', !await session.evaluate(`
 
 console.log('\ntheme');
 await session.evaluate(`location.hash = '#/settings'; return true;`);
-await wait(470);
+await wait(800);
 await session.evaluate(`document.querySelector('[data-theme="dark"]').click(); return true;`);
-await wait(320);
+await wait(900);
 check('dark theme applies', (await session.evaluate('return document.documentElement.dataset.theme')) === 'dark');
-check('theme persisted', await session.evaluate(`
-  return JSON.parse(localStorage.getItem('academic-study-helper-v4')).settings.theme === 'dark';
-`));
+// Poll until the store write lands rather than reading a stale snapshot.
+let storedTheme = '';
+for (let i = 0; i < 20; i += 1) {
+  storedTheme = await session.evaluate(`return JSON.parse(localStorage.getItem('academic-study-helper-v4')).settings.theme;`);
+  if (storedTheme === 'dark') break;
+  await wait(100);
+}
+check('theme persisted', storedTheme === 'dark', `stored "${storedTheme}"`);
 
 console.log('\npersistence across reload');
 await session.send('Page.reload');

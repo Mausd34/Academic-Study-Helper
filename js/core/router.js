@@ -3,6 +3,7 @@
  * Works on GitHub Pages without any server rewrite rules.
  */
 import { guard } from './utils.js';
+import { detach } from './parts.js';
 
 const routes = new Map();
 let current = 'dashboard';
@@ -69,6 +70,8 @@ function render() {
     const entry = routes.get(name) || routes.get('dashboard');
     current = routes.has(name) ? name : 'dashboard';
     if (!container) return;
+    // Drop listeners registered by the previous view before clearing it.
+    detach(container);
     container.innerHTML = '';
     container.scrollTop = 0;
     document.getElementById('content')?.scrollTo({ top: 0 });

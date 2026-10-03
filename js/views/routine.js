@@ -7,7 +7,7 @@ import { getState, list, update, activeSemester, setActiveSemester } from '../co
 import { classesOn, todayClassesWithStatus } from '../core/routine.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
 import { courseOptions } from '../core/forms.js';
-import { card, emptyState, badge, segmented, statRow, classRow } from '../core/parts.js';
+import { card, emptyState, badge, segmented, statRow, classRow, attach } from '../core/parts.js';
 
 let activeDay = null;
 
@@ -252,29 +252,30 @@ export function renderRoutine(root) {
 
 function wire(root) {
   const redraw = () => renderRoutine(root);
+  attach(root, ({ signal }) => {
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      const { addSemester, editSemester, deleteSemester, activateSemester, addCourse, editCourse, deleteCourse, addSlot, editSlot, deleteSlot, markPresent, markAbsent } = el.dataset;
 
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    const { addSemester, editSemester, deleteSemester, activateSemester, addCourse, editCourse, deleteCourse, addSlot, editSlot, deleteSlot, markPresent, markAbsent } = el.dataset;
-
-    if (el.dataset.day) {
-      activeDay = el.dataset.day;
-      redraw();
-      return;
-    }
-    if (addSemester !== undefined) return openSemesterForm();
-    if (editSemester) return openSemesterForm(editSemester);
-    if (deleteSemester) return removeSemester(deleteSemester);
-    if (activateSemester) { setActiveSemester(activateSemester); toastOk('Active semester updated.'); return; }
-    if (addCourse !== undefined) return openCourseForm();
-    if (editCourse) return openCourseForm(editCourse);
-    if (deleteCourse) return removeCourse(deleteCourse);
-    if (addSlot !== undefined) return openSlotForm();
-    if (editSlot) return openSlotForm(editSlot);
-    if (deleteSlot) return removeSlot(deleteSlot);
-    if (markPresent) return markSlotAttendance(markPresent, 'present');
-    if (markAbsent) return markSlotAttendance(markAbsent, 'absent');
+      if (el.dataset.day) {
+        activeDay = el.dataset.day;
+        redraw();
+        return;
+      }
+      if (addSemester !== undefined) return openSemesterForm();
+      if (editSemester) return openSemesterForm(editSemester);
+      if (deleteSemester) return removeSemester(deleteSemester);
+      if (activateSemester) { setActiveSemester(activateSemester); toastOk('Active semester updated.'); return; }
+      if (addCourse !== undefined) return openCourseForm();
+      if (editCourse) return openCourseForm(editCourse);
+      if (deleteCourse) return removeCourse(deleteCourse);
+      if (addSlot !== undefined) return openSlotForm();
+      if (editSlot) return openSlotForm(editSlot);
+      if (deleteSlot) return removeSlot(deleteSlot);
+      if (markPresent) return markSlotAttendance(markPresent, 'present');
+      if (markAbsent) return markSlotAttendance(markAbsent, 'absent');
+    }, { signal });
   });
 }
 

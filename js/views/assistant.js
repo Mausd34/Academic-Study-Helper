@@ -7,7 +7,7 @@ import { getState, list, update } from '../core/store.js';
 import { answer, suggestedPrompts, backendMode } from '../core/assistant.js';
 import { getLanguage } from '../core/i18n.js';
 import { toastOk, confirmDialog, card, badge, segmented } from '../core/ui.js';
-import { emptyState } from '../core/parts.js';
+import { emptyState, attach } from '../core/parts.js';
 
 const GREETING = {
   en: 'Hi! I run entirely offline on this device. Ask me about your routine, attendance, exams or study plan — or pick one of the suggestions.',
@@ -90,24 +90,26 @@ export function renderAssistant(root) {
   const log = root.querySelector('#chatLog');
   if (log) log.scrollTop = log.scrollHeight;
 
-  const form = root.querySelector('#chatForm');
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const input = root.querySelector('#askInput');
-    const value = input?.value || '';
-    if (!value.trim()) return;
-    ask(value);
-    renderAssistant(root);
-  });
-
-  root.addEventListener('click', (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.dataset.prompt) {
-      ask(el.dataset.prompt);
+  attach(root, ({ signal }) => {
+    const form = root.querySelector('#chatForm');
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = root.querySelector('#askInput');
+      const value = input?.value || '';
+      if (!value.trim()) return;
+      ask(value);
       renderAssistant(root);
-      return;
-    }
-    if (el.hasAttribute('data-clear-chat')) clearChat();
+    }, { signal });
+
+    root.addEventListener('click', (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.dataset.prompt) {
+        ask(el.dataset.prompt);
+        renderAssistant(root);
+        return;
+      }
+      if (el.hasAttribute('data-clear-chat')) clearChat();
+    }, { signal });
   });
 }

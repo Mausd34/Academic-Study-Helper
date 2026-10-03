@@ -7,7 +7,7 @@ import { skillAverage, skillByGroup } from '../core/analytics.js';
 import { hBarChart, ringChart } from '../core/charts.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
 import { skillFields } from '../core/forms.js';
-import { card, emptyState, badge, progressBar, statRow } from '../core/parts.js';
+import { card, emptyState, badge, progressBar, statRow, attach } from '../core/parts.js';
 
 export const LEVELS = [
   { name: 'Beginner', min: 0, max: 25, tone: 'muted' },
@@ -104,13 +104,15 @@ export function renderSkills(root) {
 }
 
 function wire(root) {
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.hasAttribute('data-add-skill')) return openSkillForm();
-    if (el.dataset.editSkill) return openSkillForm(el.dataset.editSkill);
-    if (el.dataset.nudge) return nudge(el.dataset.skill, Number(el.dataset.nudge));
-    if (el.dataset.delSkill) return removeSkill(el.dataset.delSkill);
+  attach(root, ({ signal }) => {
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.hasAttribute('data-add-skill')) return openSkillForm();
+      if (el.dataset.editSkill) return openSkillForm(el.dataset.editSkill);
+      if (el.dataset.nudge) return nudge(el.dataset.skill, Number(el.dataset.nudge));
+      if (el.dataset.delSkill) return removeSkill(el.dataset.delSkill);
+    }, { signal });
   });
 }
 

@@ -7,7 +7,7 @@ import { codingStats } from '../core/analytics.js';
 import { donutChart, stackedBar } from '../core/charts.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
 import { codingFields, PLATFORMS, DIFFICULTIES } from '../core/forms.js';
-import { card, emptyState, badge, statRow } from '../core/parts.js';
+import { card, emptyState, badge, statRow, attach } from '../core/parts.js';
 
 const DIFF_TONE = { Easy: 'success', Medium: 'warning', Hard: 'danger' };
 const PLATFORM_COLOR = { LeetCode: '#f59e0b', Codeforces: '#0ea5e9', HackerRank: '#10b981', CodeChef: '#8b5cf6', AtCoder: '#ec4899' };
@@ -122,31 +122,33 @@ export function renderCoding(root) {
 }
 
 function wire(root) {
-  const search = root.querySelector('#codSearch');
-  if (search) {
-    search.addEventListener('input', debounce((event) => {
-      query = event.target.value;
-      renderCoding(root);
-      const next = root.querySelector('#codSearch');
-      if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
-    }, 260));
-  }
-  root.addEventListener('change', (event) => {
-    if (event.target.id === 'codPlatform') { platformFilter = event.target.value; renderCoding(root); }
-    if (event.target.id === 'codDifficulty') { diffFilter = event.target.value; renderCoding(root); }
-  });
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.hasAttribute('data-add-prob')) return openProblemForm();
-    if (el.dataset.editProb) return openProblemForm(el.dataset.editProb);
-    if (el.dataset.delProb) return removeProblem(el.dataset.delProb);
-    if (el.dataset.solve) {
-      const problem = list.find('coding', el.dataset.solve);
-      if (!problem) return;
-      const next = problem.status === 'solved' ? 'attempted' : 'solved';
-      list.patch('coding', problem.id, { status: next });
-      toastOk(next === 'solved' ? `${problem.problem} marked solved 🎉` : `${problem.problem} moved back to attempted.`);
+  attach(root, ({ signal }) => {
+    const search = root.querySelector('#codSearch');
+    if (search) {
+      search.addEventListener('input', debounce((event) => {
+        query = event.target.value;
+        renderCoding(root);
+        const next = root.querySelector('#codSearch');
+        if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
+      }, 260), { signal });
     }
+    root.addEventListener('change', (event) => {
+      if (event.target.id === 'codPlatform') { platformFilter = event.target.value; renderCoding(root); }
+      if (event.target.id === 'codDifficulty') { diffFilter = event.target.value; renderCoding(root); }
+    }, { signal });
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.hasAttribute('data-add-prob')) return openProblemForm();
+      if (el.dataset.editProb) return openProblemForm(el.dataset.editProb);
+      if (el.dataset.delProb) return removeProblem(el.dataset.delProb);
+      if (el.dataset.solve) {
+        const problem = list.find('coding', el.dataset.solve);
+        if (!problem) return;
+        const next = problem.status === 'solved' ? 'attempted' : 'solved';
+        list.patch('coding', problem.id, { status: next });
+        toastOk(next === 'solved' ? `${problem.problem} marked solved 🎉` : `${problem.problem} moved back to attempted.`);
+      }
+    }, { signal });
   });
 }

@@ -9,6 +9,7 @@ import { route, setContainer, onRouteChange, startRouter, go, bindNavigation, cu
 import { NAV, initPalette, togglePalette, isPaletteOpen } from './core/palette.js';
 import { isModalOpen, closeModal, toastErr } from './core/ui.js';
 import { startReminders } from './core/reminders.js';
+import { applyTheme, cycleTheme, watchSystemTheme } from './core/theme.js';
 
 import { renderDashboard } from './views/dashboard.js';
 import { renderRoutine } from './views/routine.js';
@@ -29,28 +30,7 @@ import { renderSettings } from './views/settings.js';
 
 /* ------------------------------------------------------------------ theme */
 
-const media = window.matchMedia('(prefers-color-scheme: dark)');
-
-function applyTheme() {
-  const choice = getState().settings.theme || 'system';
-  const dark = choice === 'dark' || (choice === 'system' && media.matches);
-  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  const icon = document.getElementById('themeIcon');
-  if (icon) icon.textContent = dark ? '☀' : '☾';
-  const button = document.getElementById('themeBtn');
-  if (button) button.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
-}
-
-function cycleTheme() {
-  const order = ['light', 'dark', 'system'];
-  const current = getState().settings.theme || 'system';
-  const next = order[(order.indexOf(current) + 1) % order.length];
-  setSetting('theme', next);
-  applyTheme();
-  toast(`Theme: ${next}`);
-}
-
-const toast = (message) => {
+function toast(message) {
   const stack = document.getElementById('toastStack');
   if (!stack) return;
   const el = document.createElement('div');
@@ -59,7 +39,13 @@ const toast = (message) => {
   stack.appendChild(el);
   requestAnimationFrame(() => el.classList.add('show'));
   setTimeout(() => el.remove(), 2200);
-};
+}
+
+function onThemeButton() {
+  setSetting('theme', cycleTheme());
+  applyTheme();
+  toast(`Theme: ${getState().settings.theme}`);
+}
 
 /* ----------------------------------------------------------------- routes */
 
@@ -245,7 +231,7 @@ function boot() {
   document.getElementById('menuBtn')?.addEventListener('click', openSidebar);
   document.getElementById('sidebarClose')?.addEventListener('click', closeSidebar);
   document.getElementById('scrim')?.addEventListener('click', closeSidebar);
-  document.getElementById('themeBtn')?.addEventListener('click', cycleTheme);
+  document.getElementById('themeBtn')?.addEventListener('click', onThemeButton);
   document.getElementById('searchBtn')?.addEventListener('click', () => togglePalette());
 
   document.addEventListener('click', (event) => {
@@ -255,9 +241,7 @@ function boot() {
     go(trigger.dataset.nav);
   });
 
-  media.addEventListener('change', () => {
-    if ((getState().settings.theme || 'system') === 'system') applyTheme();
-  });
+  watchSystemTheme(() => applyTheme());
 
   // Re-render the active view whenever the store changes, so every CRUD
   // action is reflected immediately without a manual refresh.

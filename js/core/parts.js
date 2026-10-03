@@ -70,4 +70,29 @@ export const statRow = (items) => `<section class="stat-grid">${items
   .map((item) => statCard(item.label, item.value, item.sub || '', item.tone || ''))
   .join('')}</section>`;
 
+/**
+ * Re-render-safe event wiring.
+ *
+ * Views re-render into the same container, so attaching listeners on every
+ * render stacks duplicates and lets stale handlers fire with old data.
+ * Each call returns an AbortController whose signal can be aborted to
+ * detach every listener it registered.
+ */
+const controllers = new WeakMap();
+
+export function attach(root, attachFn) {
+  const previous = controllers.get(root);
+  if (previous) previous.abort();
+  const controller = new AbortController();
+  controllers.set(root, controller);
+  attachFn({ signal: controller.signal });
+  return controller;
+}
+
+export function detach(root) {
+  controllers.get(root)?.abort();
+  controllers.delete(root);
+}
+
 export { card, emptyState, badge, progressBar, statCard, segmented, ringChart, esc, formatDate, formatHours, formatMoney };
+

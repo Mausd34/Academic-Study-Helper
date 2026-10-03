@@ -4,7 +4,7 @@
 import { esc, todayKey, fromDateKey, toDateKey, formatDate, daysUntil } from '../core/utils.js';
 import { getState, list } from '../core/store.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr } from '../core/ui.js';
-import { card, emptyState, badge } from '../core/parts.js';
+import { card, emptyState, badge, attach } from '../core/parts.js';
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -145,23 +145,25 @@ export function renderCalendar(root, params = {}) {
 }
 
 function wire(root) {
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.dataset.cal === 'prev') { shiftMonth(-1); return renderCalendar(root); }
-    if (el.dataset.cal === 'next') { shiftMonth(1); return renderCalendar(root); }
-    if (el.dataset.cal === 'today') {
-      const now = new Date();
-      viewYear = now.getFullYear();
-      viewMonth = now.getMonth();
-      selected = todayKey();
-      return renderCalendar(root);
-    }
-    if (el.dataset.day) { selected = el.dataset.day; return renderCalendar(root); }
-    if (el.hasAttribute('data-add-event')) return openEventForm(null, selected);
-    if (el.dataset.delEvent) {
-      const ok = await confirmDialog({ title: 'Delete event?', message: 'This event will be removed from the calendar.', confirmLabel: 'Delete' });
-      if (ok) { list.remove('events', el.dataset.delEvent); toastOk('Event deleted.'); }
-    }
+  attach(root, ({ signal }) => {
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.dataset.cal === 'prev') { shiftMonth(-1); return renderCalendar(root); }
+      if (el.dataset.cal === 'next') { shiftMonth(1); return renderCalendar(root); }
+      if (el.dataset.cal === 'today') {
+        const now = new Date();
+        viewYear = now.getFullYear();
+        viewMonth = now.getMonth();
+        selected = todayKey();
+        return renderCalendar(root);
+      }
+      if (el.dataset.day) { selected = el.dataset.day; return renderCalendar(root); }
+      if (el.hasAttribute('data-add-event')) return openEventForm(null, selected);
+      if (el.dataset.delEvent) {
+        const ok = await confirmDialog({ title: 'Delete event?', message: 'This event will be removed from the calendar.', confirmLabel: 'Delete' });
+        if (ok) { list.remove('events', el.dataset.delEvent); toastOk('Event deleted.'); }
+      }
+    }, { signal });
   });
 }

@@ -5,7 +5,7 @@ import { esc, formatDate, stripTags, matches, renderMarkdown, nowISO, debounce }
 import { getState, list, update } from '../core/store.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk } from '../core/ui.js';
 import { noteFields } from '../core/forms.js';
-import { card, emptyState, badge } from '../core/parts.js';
+import { card, emptyState, badge, attach } from '../core/parts.js';
 
 let query = '';
 let courseFilter = 'all';
@@ -137,36 +137,38 @@ export function renderNotes(root) {
 }
 
 function wire(root) {
-  const search = root.querySelector('#noteSearch');
-  if (search) {
-    search.addEventListener('input', debounce((event) => {
-      query = event.target.value;
-      renderNotes(root);
-      const next = root.querySelector('#noteSearch');
-      if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
-    }, 260));
-  }
-
-  root.addEventListener('change', (event) => {
-    if (event.target.id === 'noteCourse') { courseFilter = event.target.value; renderNotes(root); }
-  });
-
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.hasAttribute('data-add-note')) return openNoteForm();
-    if (el.hasAttribute('data-fav-toggle')) { showFavourites = !showFavourites; return renderNotes(root); }
-    if (el.dataset.read) return openNoteReader(el.dataset.read);
-    if (el.dataset.edit) return openNoteForm(el.dataset.edit);
-    if (el.dataset.del) return removeNote(el.dataset.del);
-    if (el.dataset.fav) {
-      const note = list.find('notes', el.dataset.fav);
-      if (note) list.patch('notes', note.id, { favorite: !note.favorite, updatedAt: nowISO() });
-      return;
+  attach(root, ({ signal }) => {
+    const search = root.querySelector('#noteSearch');
+    if (search) {
+      search.addEventListener('input', debounce((event) => {
+        query = event.target.value;
+        renderNotes(root);
+        const next = root.querySelector('#noteSearch');
+        if (next) { next.focus(); next.setSelectionRange(next.value.length, next.value.length); }
+      }, 260), { signal });
     }
-    if (el.dataset.pin) {
-      const note = list.find('notes', el.dataset.pin);
-      if (note) list.patch('notes', note.id, { pinned: !note.pinned, updatedAt: nowISO() });
-    }
+
+    root.addEventListener('change', (event) => {
+      if (event.target.id === 'noteCourse') { courseFilter = event.target.value; renderNotes(root); }
+    }, { signal });
+
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.hasAttribute('data-add-note')) return openNoteForm();
+      if (el.hasAttribute('data-fav-toggle')) { showFavourites = !showFavourites; return renderNotes(root); }
+      if (el.dataset.read) return openNoteReader(el.dataset.read);
+      if (el.dataset.edit) return openNoteForm(el.dataset.edit);
+      if (el.dataset.del) return removeNote(el.dataset.del);
+      if (el.dataset.fav) {
+        const note = list.find('notes', el.dataset.fav);
+        if (note) list.patch('notes', note.id, { favorite: !note.favorite, updatedAt: nowISO() });
+        return;
+      }
+      if (el.dataset.pin) {
+        const note = list.find('notes', el.dataset.pin);
+        if (note) list.patch('notes', note.id, { pinned: !note.pinned, updatedAt: nowISO() });
+      }
+    }, { signal });
   });
 }

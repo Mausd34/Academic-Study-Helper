@@ -9,7 +9,8 @@ import {
 import { SCHEMA_VERSION, STORAGE_KEY } from '../core/storage.js';
 import { LANGUAGES, setLanguage, getLanguage } from '../core/i18n.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr, requestNotificationPermission } from '../core/ui.js';
-import { card, badge } from '../core/parts.js';
+import { card, badge, attach } from '../core/parts.js';
+import { applyTheme } from '../core/theme.js';
 
 const THEMES = ['light', 'dark', 'system'];
 
@@ -193,27 +194,37 @@ export function renderSettings(root) {
 }
 
 function wire(root) {
-  root.addEventListener('change', (event) => {
-    if (event.target.id === 'importFile' && event.target.files?.[0]) {
-      importBackup(event.target.files[0]);
-      event.target.value = '';
-    }
-  });
+  attach(root, ({ signal }) => {
+    root.addEventListener('change', (event) => {
+      if (event.target.id === 'importFile' && event.target.files?.[0]) {
+        importBackup(event.target.files[0]);
+        event.target.value = '';
+      }
+    }, { signal });
 
-  root.addEventListener('click', async (event) => {
-    const el = event.target.closest('button');
-    if (!el) return;
-    if (el.hasAttribute('data-edit-profile')) return openProfileForm();
-    if (el.hasAttribute('data-export')) return exportBackup();
-    if (el.hasAttribute('data-reset')) return resetAll();
-    if (el.hasAttribute('data-enable-notif')) {
-      const result = await requestNotificationPermission();
-      if (result === 'granted') { setSetting('notifications', true); toastOk('Notifications enabled.'); }
-      else toastErr('Notifications were not enabled. You can change this in browser settings.');
-      return renderSettings(root);
-    }
-    if (el.dataset.theme) { setSetting('theme', el.dataset.theme); return renderSettings(root); }
-    if (el.dataset.lang) { setLanguage(el.dataset.lang); setSetting('language', el.dataset.lang); return renderSettings(root); }
+    root.addEventListener('click', async (event) => {
+      const el = event.target.closest('button');
+      if (!el) return;
+      if (el.hasAttribute('data-edit-profile')) return openProfileForm();
+      if (el.hasAttribute('data-export')) return exportBackup();
+      if (el.hasAttribute('data-reset')) return resetAll();
+      if (el.hasAttribute('data-enable-notif')) {
+        const result = await requestNotificationPermission();
+        if (result === 'granted') { setSetting('notifications', true); toastOk('Notifications enabled.'); }
+        else toastErr('Notifications were not enabled. You can change this in browser settings.');
+        return renderSettings(root);
+      }
+      if (el.dataset.theme) {
+        // Persist first; the store subscriber re-renders this view for us.
+        setSetting('theme', el.dataset.theme);
+        applyTheme();
+        return;
+      }
+      if (el.dataset.lang) {
+        setLanguage(el.dataset.lang);
+        setSetting('language', el.dataset.lang);
+      }
+    }, { signal });
   });
 }
 

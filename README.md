@@ -1,252 +1,297 @@
 <div align="center">
 
-# 🎓 Academic Study Helper
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&duration=3000&pause=1000&color=635BFF&center=true&vCenter=true&width=700&lines=Academic+Study+Helper;Personal+Academic+OS+%F0%9F%8E%93;Built+by+Masud+Rana+%E2%80%94+CSE%2C+IUBAT" alt="Typing SVG" />
 
-**A zero-dependency, offline-first Progressive Web App**  
-Personal academic operating system for **Masud Rana** — CSE, IUBAT · Fall 2026
+<br/>
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-mausd34.github.io-635bff?style=for-the-badge)](https://mausd34.github.io/Academic-Study-Helper/)
-[![Deploy](https://img.shields.io/github/actions/workflow/status/Mausd34/Academic-Study-Helper/deploy.yml?label=Deploy&style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/Mausd34/Academic-Study-Helper/actions)
-[![PWA](https://img.shields.io/badge/PWA-Offline_Ready-5a67d8?style=for-the-badge&logo=pwa&logoColor=white)](https://mausd34.github.io/Academic-Study-Helper/)
-[![License](https://img.shields.io/github/license/Mausd34/Academic-Study-Helper?style=for-the-badge)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_App-Open_Now-635bff?style=for-the-badge)](https://mausd34.github.io/Academic-Study-Helper/)
+[![Deploy Status](https://img.shields.io/github/actions/workflow/status/Mausd34/Academic-Study-Helper/deploy.yml?label=CI%2FCD&style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/Mausd34/Academic-Study-Helper/actions)
+[![PWA Ready](https://img.shields.io/badge/PWA-Offline_Ready-5a67d8?style=for-the-badge&logo=pwa)](https://mausd34.github.io/Academic-Study-Helper/)
+[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=for-the-badge)](package.json)
+[![Tests](https://img.shields.io/badge/tests-37_passing-success?style=for-the-badge&logo=checkmarx)](tools/test-core.mjs)
 
 </div>
 
 ---
 
-## 📖 Overview
+## 👨‍💻 About the Developer
 
-Academic Study Helper is a **mobile-first, installable PWA** built entirely with vanilla HTML, CSS, and JavaScript — no frameworks, no bundlers, no external dependencies. Every byte of data lives in the browser's LocalStorage. Works fully offline.
+<table>
+<tr>
+<td width="60%">
 
-It was designed as a complete personal academic OS for a CSE student at IUBAT, covering everything from daily class routine to attendance forecasting, expense tracking, skill roadmaps, and an AI-powered study assistant.
+**Masud Rana**  
+🎓 B.Sc. in Computer Science & Engineering  
+🏛️ International University of Business Agriculture and Technology (IUBAT)  
+📍 Dhaka, Bangladesh · Fall 2026
+
+I built this entire application solo — from architecture design to deployment — to solve my own academic organisation problem. Every module, algorithm, and UI component was written by hand without any library or framework.
+
+</td>
+<td width="40%" align="center">
+
+```
+Focus Areas
+───────────────────────
+✦ Full-Stack Web Dev
+✦ PWA & Offline-First Apps
+✦ Data Analysis & ML
+✦ Python & FastAPI Backend
+✦ Algorithm Design
+✦ UI/UX Engineering
+```
+
+</td>
+</tr>
+</table>
 
 ---
 
-## ✨ Features
+## 🛠️ Skills Demonstrated in This Project
 
-### 📊 Dashboard
-- Today's live class schedule with real-time class status (Now / Next / Done)
-- Smart recommendation engine — surfaces urgent exams, low attendance warnings (< 80%), and imminent deadlines
-- At-a-glance attendance summary, active tasks, and upcoming deadlines
+> This project was built **entirely from scratch** to demonstrate real engineering capability — not tutorial code.
 
-### 🗓️ Class Routine
-- Full Fall 2026 weekly timetable for all CSE courses
-- Auto-highlights today's classes and the current/upcoming session
-- Weekly load summary per course (total minutes)
+### Frontend Engineering
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript_ES2022-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=flat-square&logo=pwa&logoColor=white)
 
-### ✅ Attendance Tracker
-- Per-course attendance log with present / absent recording
-- **Forecasting engine** — calculates exactly how many classes you can miss and still meet the 80% threshold, or how many consecutive classes you must attend to recover
-- Colour-coded danger zones: Safe / At-Risk / Critical
+- **Vanilla ES Modules** — architected a modular SPA without React, Vue, or any framework
+- **Reactive State Management** — built a custom pub/sub store from scratch (like Redux, but 50 lines)
+- **Client-Side Routing** — hash-based SPA router with lazy-loaded dynamic view imports
+- **Offline-First PWA** — Service Worker with cache-first strategy, installable on any device
+- **Custom SVG Charts** — bar charts, doughnut rings, and progress arcs without Chart.js
+- **Responsive Design** — CSS Grid + Flexbox, mobile-first, dark/light/system theme
+- **Accessibility** — ARIA roles, semantic HTML landmarks, keyboard navigation, skip links
+- **XSS Security** — custom HTML sanitiser for all user-controlled content
 
-### 📝 Tasks & Assignments
-- Add tasks with due dates, course tags, and priority levels
-- Status pipeline: Pending → In Progress → Completed
-- Full-text search across all tasks
+### Software Engineering Practices
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=github-actions&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
 
-### 📅 Exams
-- Exam calendar with countdown timers
-- Colour-coded urgency (Today / This Week / Upcoming)
-- Links to course and notes
+- **CI/CD Pipeline** — GitHub Actions auto-deploys to GitHub Pages on every `git push`
+- **Custom Test Runner** — 37 headless unit + integration tests written without Jest or Mocha
+- **Static Analysis Tooling** — wrote `check-syntax`, `check-imports`, `check-css`, `check-classes` tools from scratch
+- **Schema Migration Engine** — versioned LocalStorage with automatic v1→v2→v3→v4 data migration
+- **Chrome DevTools Protocol** — raw WebSocket CDP client for E2E browser testing
+- **Separation of Concerns** — clean layered architecture: `core/` engine vs `views/` rendering
 
-### 📚 Study Notes
-- Markdown-rendered notes with full-text search
-- Per-course organisation
+### Algorithms & Logic
+- **Attendance Forecasting** — linear equation solver that calculates exact safe-miss count and recovery plan
+- **Priority Queue Engine** — multi-factor scoring for recommendations (urgency × distance × attendance)
+- **Bilingual NLP** — keyword-based query matching with English & বাংলা (Bengali) answer routing
+- **Pomodoro Timer Engine** — state machine with session tracking and browser Notification API
 
-### ⏱️ Pomodoro Timer
+---
+
+## 🎯 Project Overview
+
+**Academic Study Helper** is a mobile-first, installable PWA — a complete personal academic operating system built for CSE students at IUBAT. It runs 100% in the browser with no backend, no database server, and no internet connection required.
+
+**The challenge I set myself:**
+> Build a production-grade web application with zero runtime dependencies, zero bundlers, a full test suite, CI/CD pipeline, and offline support.
+
+---
+
+## ✨ Feature Set (16 Modules)
+
+<details>
+<summary><b>📊 Dashboard</b> — Smart home screen</summary>
+
+- Real-time class status (Now / Next / Done) with live countdown
+- Recommendation engine surfacing urgent actions (low attendance, imminent exams)
+- At-a-glance: today's schedule, pending tasks, nearest deadline
+
+</details>
+
+<details>
+<summary><b>🗓️ Class Routine</b> — Weekly timetable engine</summary>
+
+- Full CSE Fall 2026 timetable with automatic current-day detection
+- Class status derived from system clock, not static data
+- Weekly load analysis (total minutes per course)
+
+</details>
+
+<details>
+<summary><b>✅ Attendance Tracker</b> — Forecasting engine</summary>
+
+- Per-course attendance log (present / absent / holiday)
+- **Forecasting algorithm** — computes exactly how many more classes you can miss while staying above 80%, or how many consecutive classes needed to recover
+- Colour-coded risk bands: Safe / At-Risk / Critical
+
+</details>
+
+<details>
+<summary><b>📝 Tasks · 📅 Exams · 📚 Notes</b> — Academic management</summary>
+
+- Task manager: due dates, priorities, status pipeline, full-text search
+- Exam calendar: countdown timers, urgency colour coding
+- Markdown-rendered notes with per-course organisation
+
+</details>
+
+<details>
+<summary><b>⏱️ Pomodoro Timer</b> — Focus engine</summary>
+
 - Configurable focus / short-break / long-break intervals
-- Session statistics (total focus time, sessions completed)
-- Native desktop notifications
+- Session statistics with total focus-hours tracking
+- Desktop notifications via browser Notification API
 
-### 💰 Expense Tracker
-- Bangladesh Taka (৳) denominated entries with date and category
-- Monthly summaries and category breakdowns
-- Visual doughnut chart
+</details>
 
-### ⚡ Skills & Career
-- Skill tracker for Python, SQL, ML, Data Analysis, Git, FastAPI, Flutter, DSA
+<details>
+<summary><b>💰 Expense Tracker</b> — Financial overview</summary>
+
+- Bangladesh Taka (৳) expense log with categories and dates
+- Monthly summaries with SVG doughnut chart breakdown
+
+</details>
+
+<details>
+<summary><b>⚡ Skills · 🚀 Career · 📖 Learning</b> — Growth tracking</summary>
+
+- Skills: Python, SQL, ML, Data Analysis, Git, FastAPI, Flutter, DSA
 - Four-month career roadmap with milestone progress bars
-- Learning plan with resource links
+- Learning plan with curated resource links
 
-### 📈 Analytics
-- Task completion trends (weekly bar chart)
-- Expense trends over time
-- Coding problem breakdown (solved vs. attempted)
-- Attendance overview across all courses
+</details>
 
-### 🤖 Study Assistant
-- Offline knowledge base with answers for CSE topics
-- **Bilingual** — responds in English or বাংলা
-- Gemini API integration ready (connect via secure backend — never expose keys in frontend)
+<details>
+<summary><b>📈 Analytics</b> — Data visualisation</summary>
 
-### 🗓️ Calendar
-- Monthly event calendar view
-- Overlays exams and task deadlines
+- Task completion trend (weekly bar chart)
+- Expense trends over time, coding problem breakdown
+- All charts built with hand-rolled SVG — no Chart.js
 
-### ⚙️ Settings
-- Light / Dark / System theme with smooth toggle
-- Language toggle (English ↔ বাংলা)
-- Full JSON data export & import (backup / restore)
-- Profile customisation (name, semester, year)
+</details>
 
-### 📱 PWA & Offline
-- Installable on Android, iOS, and desktop
-- Service Worker with cache-first strategy — works with zero connectivity
-- App shell cached on install for instant load
+<details>
+<summary><b>🤖 Study Assistant</b> — Bilingual AI</summary>
+
+- Offline keyword-based knowledge base for CSE topics
+- Responds in **English** or **বাংলা** based on query language
+- Architecture ready for Gemini API via secure backend proxy
+
+</details>
+
+<details>
+<summary><b>⚙️ Settings</b> — Personalisation & data</summary>
+
+- Light / Dark / System theme with instant toggle
+- Language: English ↔ বাংলা (full i18n, 100% key parity)
+- Full JSON export & import for backup / restore
+- Profile editing (name, semester, programme)
+
+</details>
 
 ---
 
 ## 🏗️ Architecture
 
 ```
-Academic-Study-Helper/
-├── index.html              # App shell — single HTML entry point
-├── styles.css              # Single design-token CSS file (light/dark themes)
-├── sw.js                   # Cache-first Service Worker
-├── manifest.json           # PWA manifest
-│
-├── js/
-│   ├── app.js              # Bootstrap — initialises store, router, sidebar, palette
-│   ├── core/
-│   │   ├── utils.js        # esc(), renderMarkdown(), uid(), date helpers
-│   │   ├── i18n.js         # en/bn translations — strict 1-to-1 key parity
-│   │   ├── storage.js      # LocalStorage with v4 schema + migration engine
-│   │   ├── store.js        # Reactive central state (pub/sub event bus)
-│   │   ├── router.js       # Hash-based SPA router with dynamic view imports
-│   │   ├── ui.js           # card(), badge(), modal(), toast() UI primitives
-│   │   ├── parts.js        # Shared view components (classRow, deadlineList…)
-│   │   ├── forms.js        # Form builder utilities
-│   │   ├── charts.js       # Lightweight SVG bar, doughnut, progress charts
-│   │   ├── analytics.js    # Analytics aggregation functions
-│   │   ├── routine.js      # Timetable engine + real-time class status
-│   │   ├── recommend.js    # Priority recommendation engine
-│   │   ├── assistant.js    # Bilingual study assistant logic
-│   │   ├── knowledge.js    # Offline CSE knowledge base
-│   │   ├── plans.js        # Career roadmap & learning plan data
-│   │   ├── palette.js      # Ctrl+K command palette
-│   │   ├── reminders.js    # Browser notification scheduler
-│   │   ├── timer.js        # Pomodoro timer engine
-│   │   └── theme.js        # Theme apply/cycle/watch (light/dark/system)
-│   │
-│   └── views/              # 16 lazy-loaded view modules
-│       ├── dashboard.js    analytics.js   routine.js   attendance.js
-│       ├── tasks.js        exams.js       study.js     notes.js
-│       ├── expenses.js     skills.js      career.js    learning.js
-│       ├── coding.js       calendar.js    assistant.js settings.js
-│
-├── assets/icons/           # PWA icons (192×192, 512×512, maskable, SVG)
-│
-└── tools/                  # Zero-install dev tooling (Node.js only)
-    ├── check-syntax.mjs    # Parses all 49 JS/MJS files for syntax errors
-    ├── check-imports.mjs   # Verifies every ES import path resolves
-    ├── check-css.mjs       # Validates CSS is well-formed
-    ├── check-classes.mjs   # Cross-checks HTML classes vs CSS definitions
-    ├── test-core.mjs       # 29 headless unit tests (core logic)
-    ├── test-storage.mjs    # 8 storage/migration/validation tests
-    ├── serve.mjs           # Local static dev server
-    └── browser-test.mjs    # E2E tests via Chrome DevTools Protocol (CDP)
+┌─────────────────────────────────────────────────────────┐
+│                     Browser (PWA Shell)                 │
+│                                                         │
+│  index.html ──── styles.css ──── js/app.js              │
+│                                    │                    │
+│            ┌───────────────────────┤                    │
+│            │        Core Layer     │                    │
+│            │  store.js (state)     │                    │
+│            │  router.js (nav)      │                    │
+│            │  storage.js (I/O)     │                    │
+│            │  ui.js / parts.js     │                    │
+│            │  analytics / routine  │                    │
+│            │  recommend / assistant│                    │
+│            └───────────┬───────────┘                    │
+│                        │  lazy import()                 │
+│            ┌───────────▼───────────┐                    │
+│            │     Views Layer (16)  │                    │
+│            │  dashboard · routine  │                    │
+│            │  attendance · tasks   │                    │
+│            │  exams · notes ···    │                    │
+│            └───────────────────────┘                    │
+│                                                         │
+│  sw.js ── Service Worker (cache-first, offline)         │
+└─────────────────────────────────────────────────────────┘
+         │
+         ▼  git push main
+┌────────────────────┐
+│   GitHub Actions   │  ← CI/CD in 20 seconds
+│   deploy.yml       │
+└────────┬───────────┘
+         ▼
+┌────────────────────┐
+│   GitHub Pages     │  https://mausd34.github.io/
+│   (Live, HTTPS)    │  Academic-Study-Helper/
+└────────────────────┘
 ```
-
-**Design principles:**
-- 🚫 **Zero runtime dependencies** — no npm packages, no CDN links
-- 🖥️ **No bundler** — native ES Modules, runs directly in any modern browser
-- 📦 **Local-first** — all data in LocalStorage, versioned schema (`v4`) with automatic migration
-- 🔐 **Privacy** — no analytics, no tracking, no external API calls by default
 
 ---
 
-## 🚀 Quick Start
-
-### Run Locally
-
-> ES Modules require a server — they cannot load from `file://`.
+## 🧪 Quality & Testing
 
 ```bash
-# Clone the repository
+npm run check   # Runs 4 static analysis tools:
+                #   ✓ check-syntax.mjs   — 49 files, 0 syntax errors
+                #   ✓ check-imports.mjs  — all ES module paths resolve
+                #   ✓ check-css.mjs      — CSS well-formed, 189 classes
+                #   ✓ check-classes.mjs  — markup ↔ CSS contract verified
+
+npm test        # Runs 37 assertions across 2 test suites:
+                #   ✓ test-core.mjs     — 29 tests (safety, logic, i18n)
+                #   ✓ test-storage.mjs  —  8 tests (schema, migration)
+```
+
+**All tools were written from scratch in Node.js** — no test framework, no linter configuration files, no build config.
+
+---
+
+## 🚀 Run Locally
+
+```bash
 git clone https://github.com/Mausd34/Academic-Study-Helper.git
 cd Academic-Study-Helper
-
-# Start local dev server (no npm install needed)
-npm run serve
-# → http://localhost:8000
+npm run serve         # → http://localhost:8000
 ```
 
-### Verify Before Pushing
-
-```bash
-npm run check     # syntax + imports + CSS integrity + markup contract
-npm test          # 29 core tests + 8 storage tests — must be 0 failures
-```
+> No `npm install` required. Zero dependencies.
 
 ---
 
-## 🛠️ Tech Stack
+## 📂 Tech Stack
 
-| Layer | Technology |
-| :--- | :--- |
-| **UI** | Vanilla HTML5 + CSS3 (Custom Properties, Grid, Flexbox) |
-| **Logic** | Vanilla JavaScript ES2022 (Native ES Modules) |
-| **State** | Central reactive store with pub/sub event bus |
-| **Routing** | Hash-based SPA router with lazy dynamic `import()` |
-| **Storage** | Browser LocalStorage with versioned schema migration |
-| **Charts** | Hand-rolled SVG (bar, doughnut, progress ring) |
-| **Offline** | Cache-first Service Worker + PWA manifest |
-| **CI/CD** | GitHub Actions → GitHub Pages |
-| **Testing** | Custom headless Node.js test runner (no frameworks) |
-
----
-
-## 📦 Deployment
-
-The app auto-deploys to GitHub Pages on every push to `main`.
-
-```
-Push to main
-    └── GitHub Actions (.github/workflows/deploy.yml)
-            └── Upload static files → GitHub Pages
-                    └── https://mausd34.github.io/Academic-Study-Helper/
-```
-
-To trigger a manual redeploy:
-
-```bash
-gh workflow run deploy.yml
-```
+| | Technology | Why |
+| :---: | :--- | :--- |
+| 🖥️ | **Vanilla HTML5 + CSS3 + JavaScript ES2022** | Zero overhead, maximum control |
+| 🔁 | **Native ES Modules** | No bundler, loads natively in any modern browser |
+| 🗄️ | **LocalStorage + versioned schema** | Offline-first, no backend required |
+| 📡 | **Service Worker (Cache-First)** | Full offline capability, installable PWA |
+| 📊 | **Hand-rolled SVG charts** | No Chart.js, pixel-perfect, 0 kb overhead |
+| 🔀 | **Custom pub/sub reactive store** | No Redux/Zustand — 50 lines, same concept |
+| 🤖 | **GitHub Actions CI/CD** | Auto-deploys to GitHub Pages on every push |
+| 🧪 | **Custom Node.js test runner** | No Jest/Mocha — built from scratch |
 
 ---
 
-## 💾 Data & Privacy
-
-- All data is stored locally in your browser under the key `academic-study-helper-v4`
-- **Export**: Settings → Export JSON (download a full backup)
-- **Import**: Settings → Import JSON (restore on any browser)
-- **No data ever leaves your device** — no servers, no accounts, no cloud
-
----
-
-## 🔮 Roadmap
-
-- [ ] FastAPI + PostgreSQL cloud sync (optional)
-- [ ] Secure user authentication
-- [ ] Real LLM study assistant via secure backend proxy
-- [ ] AI-generated quiz & MCQ practice
-- [ ] PDF note import & search
-- [ ] Push notification integration
-- [ ] Flutter Android client
-- [ ] ML-based personalised study recommendations
-
----
-
-## 👤 Author
-
-**Masud Rana**  
-CSE Student · IUBAT · Fall 2026  
-GitHub: [@Mausd34](https://github.com/Mausd34)
-
----
+## 📬 Contact
 
 <div align="center">
 
-Made with ❤️ for academic excellence · **[Open the App →](https://mausd34.github.io/Academic-Study-Helper/)**
+**Masud Rana**
+
+[![GitHub](https://img.shields.io/badge/GitHub-@Mausd34-181717?style=for-the-badge&logo=github)](https://github.com/Mausd34)
+[![Live Project](https://img.shields.io/badge/Live_Project-Academic_Study_Helper-635bff?style=for-the-badge&logo=pwa)](https://mausd34.github.io/Academic-Study-Helper/)
+
+*Open to internship and entry-level software engineering roles.*  
+*Comfortable in JavaScript, Python, and full-stack web development.*
+
+---
+
+> *"I don't just use tools — I build them."*
+
+**[→ Open the Live App](https://mausd34.github.io/Academic-Study-Helper/)**
 
 </div>

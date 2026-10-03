@@ -231,6 +231,45 @@ Focus Areas
 
 ---
 
+## 🗄️ Cloud Sync (Supabase)
+
+**Optional.** The app is 100% functional with no backend — everything lives in localStorage. Signing in adds cloud backup across devices.
+
+### Schema
+
+Migrations live in [`supabase/`](supabase/) and run in order:
+
+| File | Purpose |
+|---|---|
+| `001_schema.sql` | 17 tables, indexes, `updated_at` triggers |
+| `002_rls.sql` | **Row Level Security + own-rows-only policies** |
+| `003_seed_reference.sql` | Optional Fall 2026 reference data |
+
+Apply via dashboard → **SQL Editor**, or `supabase db push`.
+
+### ⚠️ Read this before going live
+
+`002_rls.sql` is the only thing protecting your data. The `sb_publishable_...` key in `js/core/config.js` is **designed to be public** — it ships to every browser, and it is already in git history. RLS is what stops that key from reading your rows.
+
+Verify after migrating:
+
+```sql
+select relname, relrowsecurity
+from pg_class
+where relnamespace = 'public'::regnamespace and relkind = 'r'
+order by relname;
+```
+
+Every row must show `relrowsecurity = true`. Any `false` means that table is world-readable.
+
+### Known gaps
+
+- `sync.js` still writes the whole state into `user_data` as one JSON blob; the 17 collection tables are ready but unpopulated.
+- `supabase.js` imports the SDK from jsDelivr, which **breaks offline** and breaks the zero-dependency rule in `.clinerules`.
+- The key is hardcoded in `config.js` — move it to runtime config if you'd rather rotate it outside git.
+
+---
+
 ## 🧪 Quality & Testing
 
 ```bash

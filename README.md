@@ -4,6 +4,10 @@
 
 <br/>
 
+<p align="center">
+  <img src="assets/project-banner.svg" alt="Academic Study Helper project banner" width="1000" />
+</p>
+
 [![Live Demo](https://img.shields.io/badge/🌐_Live_App-Open_Now-635bff?style=for-the-badge)](https://mausd34.github.io/Academic-Study-Helper/)
 [![Deploy Status](https://img.shields.io/github/actions/workflow/status/Mausd34/Academic-Study-Helper/deploy.yml?label=CI%2FCD&style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/Mausd34/Academic-Study-Helper/actions)
 [![PWA Ready](https://img.shields.io/badge/PWA-Offline_Ready-5a67d8?style=for-the-badge&logo=pwa)](https://mausd34.github.io/Academic-Study-Helper/)
@@ -13,10 +17,6 @@
 </div>
 
 ## 🧩 Project Base
-
-<p align="center">
-  <img src="assets/project-banner.svg" alt="Academic Study Helper project banner" width="1000" />
-</p>
 
 Academic Study Helper is a personal academic command center designed for students who want a single place to manage classes, tasks, attendance, notes, exam prep, skills, finance, and study focus. The project is built as a fast, installable PWA with an offline-first workflow and a local FastAPI backend for optional AI assistance.
 

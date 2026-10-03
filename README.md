@@ -43,6 +43,22 @@ The system is layered to keep the student experience fast and dependable:
 - Supabase auth and data sync for optional cross-device access
 - Offline knowledge engine as the default safe mode without exposing API keys
 
+## 🧭 Simple Student Flow
+
+<p align="center">
+  <img src="assets/student-flow.svg" alt="Simple student workflow diagram" width="1200" />
+</p>
+
+This project is designed around a very simple student journey:
+
+1. Open the app and see the dashboard
+2. Check the class routine and upcoming tasks
+3. Track attendance and exam deadlines
+4. Study with timers, notes, and focused planning
+5. Review your progress and improve over time
+
+This makes the app easier to understand even for a person who is not technical, because the flow matches real student life rather than abstract code architecture.
+
 ---
 
 ## 👨‍💻 About the Developer

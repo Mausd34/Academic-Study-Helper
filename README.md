@@ -29,6 +29,20 @@ Academic Study Helper is a personal academic command center designed for student
 - Offline-first local-first experience
 - Ready for optional backend AI integration
 
+## 🏗️ Architecture Diagram
+
+<p align="center">
+  <img src="assets/architecture-diagram.svg" alt="Academic Study Helper architecture diagram" width="1200" />
+</p>
+
+The system is layered to keep the student experience fast and dependable:
+
+- Browser app shell and route-based PWA UI
+- Local storage and sync engine for offline persistence
+- Optional FastAPI backend for health checks, chat, and cloud sync
+- Supabase auth and data sync for optional cross-device access
+- Offline knowledge engine as the default safe mode without exposing API keys
+
 ---
 
 ## 👨‍💻 About the Developer

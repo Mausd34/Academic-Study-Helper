@@ -1,0 +1,94 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#1D4ED8" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#22C55E" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#67E8F9"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#020617" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="980" rx="32" fill="url(#bg)"/>
+
+  <text x="800" y="66" text-anchor="middle" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="700">Academic Study Helper Architecture</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="120" width="1460" height="780" rx="28" fill="rgba(15,23,42,0.65)" stroke="rgba(148,163,184,0.25)"/>
+  </g>
+
+  <text x="120" y="170" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700">Client / PWA Layer</text>
+  <rect x="120" y="200" width="350" height="220" rx="22" fill="url(#panel)" stroke="rgba(96,165,250,0.45)"/>
+  <text x="150" y="245" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Browser App Shell</text>
+  <text x="150" y="285" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Dashboard, Routine, Tasks</text>
+  <text x="150" y="315" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Notes, Exams, Attendance</text>
+  <text x="150" y="345" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Study timer, Analytics</text>
+  <text x="150" y="375" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Offline-first local storage</text>
+
+  <rect x="510" y="200" width="360" height="220" rx="22" fill="url(#panel)" stroke="rgba(168,85,247,0.45)"/>
+  <text x="540" y="245" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Frontend Modules</text>
+  <text x="540" y="285" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• core/store.js</text>
+  <text x="540" y="315" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• core/assistant.js</text>
+  <text x="540" y="345" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• core/sync.js</text>
+  <text x="540" y="375" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• views/*.js and router</text>
+
+  <rect x="930" y="200" width="310" height="220" rx="22" fill="url(#panel)" stroke="rgba(34,211,238,0.45)"/>
+  <text x="960" y="245" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Storage + Sync</text>
+  <text x="960" y="285" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• localStorage / IndexedDB</text>
+  <text x="960" y="315" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• PWA cache</text>
+  <text x="960" y="345" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Supabase session sync</text>
+  <text x="960" y="375" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• offline fallback safe by default</text>
+
+  <text x="120" y="500" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700">Optional Backend + AI Layer</text>
+  <rect x="120" y="530" width="420" height="260" rx="22" fill="rgba(30,41,59,0.78)" stroke="rgba(34,197,94,0.4)"/>
+  <text x="150" y="575" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">FastAPI Backend</text>
+  <text x="150" y="615" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• /health</text>
+  <text x="150" y="645" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• /api/info</text>
+  <text x="150" y="675" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• /api/chat</text>
+  <text x="150" y="705" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• /api/sync</text>
+  <text x="150" y="745" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• provider validation and offline fallback</text>
+
+  <rect x="610" y="530" width="420" height="260" rx="22" fill="rgba(30,41,59,0.78)" stroke="rgba(59,130,246,0.4)"/>
+  <text x="640" y="575" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">AI Providers</text>
+  <text x="640" y="615" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Local offline knowledge engine</text>
+  <text x="640" y="645" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Optional LLM backend bridge</text>
+  <text x="640" y="675" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Safe provider allowlist</text>
+  <text x="640" y="705" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• No API key exposed to frontend</text>
+
+  <rect x="1100" y="530" width="360" height="260" rx="22" fill="rgba(30,41,59,0.78)" stroke="rgba(168,85,247,0.4)"/>
+  <text x="1130" y="575" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Supabase</text>
+  <text x="1130" y="615" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Auth gateway</text>
+  <text x="1130" y="645" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• OAuth / email login</text>
+  <text x="1130" y="675" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Cloud sync state</text>
+  <text x="1130" y="705" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="18">• Backup and cross-device sync</text>
+
+  <path d="M470 310H510" stroke="url(#purple)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M870 310H930" stroke="url(#cyan)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M540 430V530" stroke="url(#purple)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M820 430V530" stroke="url(#cyan)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1180 430V530" stroke="url(#cyan)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M540 662H610" stroke="url(#purple)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1030 662H1100" stroke="url(#cyan)" stroke-width="4" stroke-linecap="round"/>
+
+  <g fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="18">
+    <text x="495" y="296">Data flow</text>
+    <text x="900" y="296">Storage</text>
+    <text x="570" y="470">runtime</text>
+    <text x="820" y="470">sync</text>
+    <text x="1170" y="470">auth</text>
+    <text x="565" y="648">AI</text>
+    <text x="1038" y="648">cloud</text>
+  </g>
+</svg>

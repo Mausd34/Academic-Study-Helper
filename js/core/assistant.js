@@ -66,6 +66,8 @@ function studyPlanAnswer(state) {
 
 /* ------------------------------------------------------------------ public */
 
+const BACKEND_URL = 'http://127.0.0.1:8000';
+
 const SUGGESTIONS = [
   { en: 'Explain TCP/IP simply', bn: 'TCP/IP সহজ করে বুঝাও' },
   { en: 'Give me a Python learning plan', bn: 'Python শেখার পরিকল্পনা দাও' },
@@ -124,13 +126,44 @@ export function answer(question, { language = 'en', state = {} } = {}) {
 }
 
 /**
- * LLM bridge status. Intentionally disabled: the frontend must never hold a
- * provider secret. A FastAPI backend would own the key and expose /api/chat.
+ * Local backend bridge state. The app keeps this optional and falls back to the
+ * offline engine if the backend is unavailable or rejected.
  */
+export async function askBackend(question, { language = 'en', state = {} } = {}) {
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: String(question ?? '').trim(),
+        language,
+        provider: 'offline',
+        state,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Backend rejected the request (${response.status})`);
+    }
+
+    const payload = await response.json();
+    if (!payload?.text) {
+      throw new Error('Backend response missing text');
+    }
+
+    return {
+      text: String(payload.text),
+      source: 'backend',
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
 export function backendMode() {
   return {
-    enabled: false,
-    url: '',
-    note: 'Offline mode. Connect a FastAPI backend to enable a real LLM — the provider key stays server-side.',
+    enabled: true,
+    url: BACKEND_URL,
+    note: 'Connected to the local FastAPI backend. Offline fallback remains active if the server is unavailable.',
   };
 }

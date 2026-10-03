@@ -4,7 +4,7 @@
  */
 import { esc, uid, nowISO, timeAgo } from '../core/utils.js';
 import { getState, list, update } from '../core/store.js';
-import { answer, suggestedPrompts, backendMode } from '../core/assistant.js';
+import { answer, suggestedPrompts, backendMode, askBackend } from '../core/assistant.js';
 import { getLanguage } from '../core/i18n.js';
 import { toastOk, confirmDialog, card, badge, segmented } from '../core/ui.js';
 import { emptyState, attach } from '../core/parts.js';
@@ -23,11 +23,21 @@ function bubble(message) {
 }
 
 /** Ask a question and persist both sides of the exchange. */
-export function ask(question) {
+export async function ask(question) {
   const q = String(question ?? '').trim();
   if (!q) return;
   const state = getState();
-  const reply = answer(q, { language: getLanguage(), state });
+  const language = getLanguage();
+  const mode = backendMode();
+
+  let reply = null;
+  if (mode.enabled) {
+    reply = await askBackend(q, { language, state });
+  }
+  if (!reply) {
+    reply = answer(q, { language, state });
+  }
+
   update((draft) => {
     draft.chat = [
       ...(draft.chat || []),
@@ -92,20 +102,20 @@ export function renderAssistant(root) {
 
   attach(root, ({ signal }) => {
     const form = root.querySelector('#chatForm');
-    form?.addEventListener('submit', (event) => {
+    form?.addEventListener('submit', async (event) => {
       event.preventDefault();
       const input = root.querySelector('#askInput');
       const value = input?.value || '';
       if (!value.trim()) return;
-      ask(value);
+      await ask(value);
       renderAssistant(root);
     }, { signal });
 
-    root.addEventListener('click', (event) => {
+    root.addEventListener('click', async (event) => {
       const el = event.target.closest('button');
       if (!el) return;
       if (el.dataset.prompt) {
-        ask(el.dataset.prompt);
+        await ask(el.dataset.prompt);
         renderAssistant(root);
         return;
       }

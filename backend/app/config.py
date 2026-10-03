@@ -12,7 +12,7 @@ class Settings:
     allowed_origins: list[str] = field(
         default_factory=lambda: os.getenv(
             'ALLOWED_ORIGINS',
-            'http://localhost:8123,http://127.0.0.1:8123',
+            'http://localhost:8123,http://127.0.0.1:8123,http://localhost:8000,http://127.0.0.1:8000',
         ).split(',')
     )
     llm_provider: str = os.getenv('LLM_PROVIDER', 'offline')

@@ -2,8 +2,14 @@
 
 A mobile-first personal academic productivity PWA for Masud Rana (CSE, IUBAT) — Fall 2026.
 
-## Live app
-GitHub Pages: https://mausd34.github.io/Academic-Study-Helper/
+## Status
+
+Pages is **not enabled** for this repository, so there is no live URL yet. To publish:
+
+1. Repo → **Settings → Pages** → Source: **GitHub Actions**
+2. Push to `main` — `.github/workflows/deploy.yml` builds and publishes
+
+Until then, run it locally with `npm run serve`.
 
 ## Features
 - 📊 Dashboard with today's classes, attendance, assignments, expenses and skill progress
@@ -37,7 +43,7 @@ After editing anything, clear the service worker cache (DevTools → Application
 
 ## Verification
 ```bash
-npm run check      # JS syntax + ES import paths + styles.css brace/rule integrity
+npm run check      # JS syntax + ES import paths + CSS integrity + markup contract
 npm test           # 29 core unit tests + 8 storage/migration tests
 ```
 Both must pass with zero failures before pushing.

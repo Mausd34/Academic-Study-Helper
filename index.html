@@ -1,97 +1,611 @@
 <!doctype html>
 <html lang="en" data-theme="light">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=5">
-<meta name="theme-color" content="#0b1220">
-<meta name="description" content="Academic Study Helper — personal academic productivity system for Masud Rana, CSE, IUBAT.">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Study Helper">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./assets/icons/favicon.svg" type="image/svg+xml">
-<title>Academic Study Helper</title>
-<link rel="stylesheet" href="./styles.css">
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b0c10"
+  >
+
+  <meta
+    name="description"
+    content="Academic Study Helper — a personal academic productivity system for Masud Rana, CSE, IUBAT."
+  >
+
+  <meta
+    name="author"
+    content="Masud Rana"
+  >
+
+  <meta
+    name="application-name"
+    content="Academic Study Helper"
+  >
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Study Helper"
+  >
+
+  <meta
+    name="format-detection"
+    content="telephone=no"
+  >
+
+  <!-- PWA -->
+  <link
+    rel="manifest"
+    href="./manifest.json"
+  >
+
+  <link
+    rel="icon"
+    href="./assets/icons/favicon.svg"
+    type="image/svg+xml"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="./assets/icons/favicon.svg"
+  >
+
+  <!-- Fonts -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- App CSS -->
+  <link
+    rel="stylesheet"
+    href="./styles.css"
+  >
+
+  <title>
+    Academic Study Helper — Masud Rana
+  </title>
 </head>
+
+
 <body>
-<a class="skip-link" href="#mainContent">Skip to main content</a>
 
-<div class="app-shell">
-  <div class="scrim" id="scrim" hidden></div>
+  <!-- =====================================================
+       ACCESSIBILITY
+       ===================================================== -->
 
-  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
-    <div class="brand">
-      <div class="brand-mark" aria-hidden="true">🎓</div>
-      <div class="brand-text">
-        <strong>Study Helper</strong>
-        <span id="brandTagline">Masud's academic OS</span>
-      </div>
-      <button class="icon-btn sidebar-close" id="sidebarClose" aria-label="Close navigation"><span aria-hidden="true">✕</span></button>
-    </div>
-    <nav class="nav-list" id="navList" aria-label="Pages"></nav>
-    <div class="sidebar-footer">
-      <div class="profile-mini">
-        <div class="avatar" id="sidebarAvatar">MR</div>
-        <div class="profile-mini-text">
-          <strong id="sidebarName">Masud Rana</strong>
-          <small id="sidebarSub">IUBAT · CSE</small>
+  <a
+    class="skip-link"
+    href="#mainContent"
+  >
+    Skip to main content
+  </a>
+
+
+  <!-- =====================================================
+       APP SHELL
+       ===================================================== -->
+
+  <div
+    class="app-shell"
+    id="appShell"
+  >
+
+    <!-- Mobile overlay -->
+    <div
+      class="scrim"
+      id="scrim"
+      hidden
+      aria-hidden="true"
+    ></div>
+
+
+    <!-- ===================================================
+         SIDEBAR
+         =================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+      aria-label="Main navigation"
+    >
+
+      <!-- Brand -->
+      <div class="brand">
+
+        <div
+          class="brand-mark"
+          aria-hidden="true"
+        >
+          <span>MR</span>
         </div>
-      </div>
-    </div>
-  </aside>
 
-  <main class="main" id="mainContent">
-    <header class="topbar">
-      <div class="top-left">
-        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar"><span aria-hidden="true">☰</span></button>
-        <div class="top-title">
-          <div class="eyebrow" id="topEyebrow">FALL 2026</div>
-          <h1 id="pageTitle">Dashboard</h1>
+        <div class="brand-text">
+
+          <strong>
+            Study Helper
+          </strong>
+
+          <span id="brandTagline">
+            Masud's Academic OS
+          </span>
+
         </div>
+
+        <button
+          class="icon-btn sidebar-close"
+          id="sidebarClose"
+          type="button"
+          aria-label="Close navigation"
+        >
+          ×
+        </button>
+
       </div>
-      <div class="top-actions">
-        <button class="icon-btn" id="searchBtn" aria-label="Open search" title="Search (Ctrl+K)"><span aria-hidden="true">🔍</span></button>
-        <button class="icon-btn" id="installBtn" aria-label="Install app" title="Install app" hidden><span aria-hidden="true">⬇</span></button>
-        <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme"><span aria-hidden="true" id="themeIcon">☾</span></button>
+
+
+      <!-- Academic status -->
+      <div
+        class="sidebar-status"
+        aria-label="Academic status"
+      >
+
+        <div class="status-indicator">
+
+          <span
+            class="status-dot"
+            aria-hidden="true"
+          ></span>
+
+          <span>
+            Academic Mode
+          </span>
+
+        </div>
+
+        <span class="status-semester">
+          FALL 2026
+        </span>
+
       </div>
-    </header>
-    <section class="content" id="content" tabindex="-1">
-      <div id="viewRoot" aria-live="polite"></div>
+
+
+      <!-- Navigation -->
+      <nav
+        class="nav-list"
+        id="navList"
+        aria-label="Pages"
+      >
+        <!-- Generated by app.js -->
+      </nav>
+
+
+      <!-- Sidebar profile -->
+      <div class="sidebar-footer">
+
+        <div class="profile-mini">
+
+          <div
+            class="avatar"
+            id="sidebarAvatar"
+            aria-hidden="true"
+          >
+            MR
+          </div>
+
+          <div class="profile-mini-text">
+
+            <strong id="sidebarName">
+              Masud Rana
+            </strong>
+
+            <small id="sidebarSub">
+              IUBAT · CSE
+            </small>
+
+          </div>
+
+          <span
+            class="profile-status"
+            title="Profile active"
+            aria-label="Profile active"
+          >
+            <span></span>
+          </span>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ===================================================
+         MAIN
+         =================================================== -->
+
+    <main
+      class="main"
+      id="mainContent"
+    >
+
+      <!-- Topbar -->
+      <header class="topbar">
+
+        <div class="top-left">
+
+          <!-- Mobile menu -->
+          <button
+            class="icon-btn menu-btn"
+            id="menuBtn"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="sidebar"
+          >
+            <span aria-hidden="true">
+              ☰
+            </span>
+          </button>
+
+
+          <!-- Page title -->
+          <div class="top-title">
+
+            <div
+              class="eyebrow"
+              id="topEyebrow"
+            >
+              FALL 2026
+            </div>
+
+            <h1 id="pageTitle">
+              Dashboard
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <!-- Top actions -->
+        <div
+          class="top-actions"
+          aria-label="Application controls"
+        >
+
+          <!-- Search -->
+          <button
+            class="icon-btn"
+            id="searchBtn"
+            type="button"
+            aria-label="Open search"
+            title="Search · Ctrl K"
+          >
+            <span aria-hidden="true">
+              ⌕
+            </span>
+          </button>
+
+
+          <!-- Install -->
+          <button
+            class="icon-btn"
+            id="installBtn"
+            type="button"
+            aria-label="Install application"
+            title="Install application"
+            hidden
+          >
+            <span aria-hidden="true">
+              ↓
+            </span>
+          </button>
+
+
+          <!-- Theme -->
+          <button
+            class="icon-btn"
+            id="themeBtn"
+            type="button"
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
+            <span
+              id="themeIcon"
+              aria-hidden="true"
+            >
+              ◐
+            </span>
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- =================================================
+           CONTENT
+           ================================================= -->
+
+      <section
+        class="content"
+        id="content"
+        tabindex="-1"
+        aria-label="Academic content"
+      >
+
+        <div
+          id="viewRoot"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <!-- Dynamic views rendered by app.js -->
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- ===================================================
+         MOBILE BOTTOM NAV
+         =================================================== -->
+
+    <nav
+      class="bottom-nav"
+      id="bottomNav"
+      aria-label="Primary navigation"
+    >
+      <!-- Generated by app.js -->
+    </nav>
+
+  </div>
+
+
+  <!-- =====================================================
+       TOAST SYSTEM
+       ===================================================== -->
+
+  <div
+    class="toast-stack"
+    id="toastStack"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
+
+
+  <!-- =====================================================
+       GLOBAL MODAL
+       ===================================================== -->
+
+  <div
+    class="modal-root"
+    id="modalRoot"
+    hidden
+  >
+
+    <div
+      class="modal-scrim"
+      data-close-modal
+      aria-hidden="true"
+    ></div>
+
+
+    <section
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+
+      <header class="modal-head">
+
+        <div class="modal-title-wrap">
+
+          <span
+            class="modal-kicker"
+            aria-hidden="true"
+          >
+            STUDY HELPER
+          </span>
+
+          <h2 id="modalTitle">
+            Title
+          </h2>
+
+        </div>
+
+        <button
+          class="icon-btn"
+          type="button"
+          data-close-modal
+          aria-label="Close dialog"
+        >
+          ×
+        </button>
+
+      </header>
+
+
+      <div
+        class="modal-body"
+        id="modalBody"
+      ></div>
+
+
+      <footer
+        class="modal-foot"
+        id="modalFoot"
+      ></footer>
+
     </section>
-  </main>
 
-  <nav class="bottom-nav" id="bottomNav" aria-label="Primary"></nav>
-</div>
-
-<div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
-
-<div class="modal-root" id="modalRoot" hidden>
-  <div class="modal-scrim" data-close-modal></div>
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <header class="modal-head">
-      <h2 id="modalTitle">Title</h2>
-      <button class="icon-btn" data-close-modal aria-label="Close dialog"><span aria-hidden="true">✕</span></button>
-    </header>
-    <div class="modal-body" id="modalBody"></div>
-    <footer class="modal-foot" id="modalFoot"></footer>
   </div>
-</div>
 
-<div class="palette-root" id="paletteRoot" hidden>
-  <div class="palette-scrim" data-close-palette></div>
-  <div class="palette" role="dialog" aria-modal="true" aria-label="Command center">
-    <div class="palette-input-row">
-      <span aria-hidden="true">🔍</span>
-      <input id="paletteInput" type="text" autocomplete="off" placeholder="Search or run a command…" aria-label="Search or run a command">
-      <kbd>Esc</kbd>
+
+  <!-- =====================================================
+       COMMAND CENTER
+       ===================================================== -->
+
+  <div
+    class="palette-root"
+    id="paletteRoot"
+    hidden
+  >
+
+    <div
+      class="palette-scrim"
+      data-close-palette
+      aria-hidden="true"
+    ></div>
+
+
+    <section
+      class="palette"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Command center"
+    >
+
+      <!-- Search -->
+      <div class="palette-input-row">
+
+        <span
+          class="palette-search-icon"
+          aria-hidden="true"
+        >
+          ⌕
+        </span>
+
+        <input
+          id="paletteInput"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="Search subjects, tasks, notes, commands…"
+          aria-label="Search or run a command"
+        >
+
+        <kbd>
+          Esc
+        </kbd>
+
+      </div>
+
+
+      <!-- Results -->
+      <div
+        class="palette-results"
+        id="paletteResults"
+        role="listbox"
+        aria-label="Search results"
+      ></div>
+
+
+      <!-- Keyboard shortcuts -->
+      <footer class="palette-foot">
+
+        <span>
+          <kbd>↑</kbd>
+          <kbd>↓</kbd>
+          Navigate
+        </span>
+
+        <span>
+          <kbd>Enter</kbd>
+          Open
+        </span>
+
+        <span>
+          <kbd>Esc</kbd>
+          Close
+        </span>
+
+        <span>
+          <kbd>Ctrl</kbd>
+          +
+          <kbd>K</kbd>
+          Command
+        </span>
+
+      </footer>
+
+    </section>
+
+  </div>
+
+
+  <!-- =====================================================
+       NO JAVASCRIPT FALLBACK
+       ===================================================== -->
+
+  <noscript>
+
+    <div class="noscript-message">
+
+      <div
+        class="noscript-icon"
+        aria-hidden="true"
+      >
+        !
+      </div>
+
+      <h2>
+        JavaScript is required
+      </h2>
+
+      <p>
+        Academic Study Helper needs JavaScript enabled
+        to run your personal academic dashboard.
+      </p>
+
     </div>
-    <div class="palette-results" id="paletteResults" role="listbox"></div>
-    <footer class="palette-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd> toggle</span></footer>
-  </div>
-</div>
 
-<noscript><div style="padding:24px;font-family:system-ui">Academic Study Helper needs JavaScript enabled to run.</div></noscript>
-<script type="module" src="./js/app.js"></script>
+  </noscript>
+
+
+  <!-- =====================================================
+       APPLICATION
+       ===================================================== -->
+
+  <script
+    type="module"
+    src="./js/app.js"
+  ></script>
+
 </body>
 </html>

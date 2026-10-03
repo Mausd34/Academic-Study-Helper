@@ -10,6 +10,9 @@ import { NAV, initPalette, togglePalette, isPaletteOpen } from './core/palette.j
 import { isModalOpen, closeModal, toastErr } from './core/ui.js';
 import { startReminders } from './core/reminders.js';
 import { applyTheme, cycleTheme, watchSystemTheme } from './core/theme.js';
+import { SUPABASE_CONFIGURED, onAuthChange, getUser } from './core/auth.js';
+import { enableSync, disableSync, schedulePush } from './core/sync.js';
+import { renderLogin } from './views/login.js';
 
 import { renderDashboard } from './views/dashboard.js';
 import { renderRoutine } from './views/routine.js';
@@ -208,7 +211,7 @@ function registerRoutes() {
   route('settings', renderSettings);
 }
 
-function boot() {
+async function startApp() {
   const state = getState();
   setLanguage(state.settings.language || 'en');
   applyTheme();
@@ -248,10 +251,54 @@ function boot() {
   subscribe(() => {
     guard('sync-profile', syncProfile);
     guard('view-refresh', () => refresh());
+    if (SUPABASE_CONFIGURED) schedulePush();
   });
 
   startRouter();
   startReminders();
+}
+
+let _appStarted = false;
+
+async function boot() {
+  if (SUPABASE_CONFIGURED) {
+    let authSkip = false;
+    const user = await getUser();
+    
+    onAuthChange(async ({ user: authUser }) => {
+      if (authUser) {
+        await enableSync(authUser.id);
+        if (!_appStarted) {
+          _appStarted = true;
+          document.querySelector('.app-shell').style.display = '';
+          document.querySelector('.auth-wrap')?.parentElement.remove();
+          startApp();
+        }
+      } else {
+        disableSync();
+        if (_appStarted && !authSkip) {
+          window.location.reload();
+        }
+      }
+    });
+
+    if (!user && !authSkip) {
+      document.querySelector('.app-shell').style.display = 'none';
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      renderLogin(div, () => {
+        authSkip = true;
+        div.remove();
+        document.querySelector('.app-shell').style.display = '';
+        _appStarted = true;
+        startApp();
+      });
+      return;
+    }
+  }
+
+  _appStarted = true;
+  startApp();
 }
 
 if (document.readyState === 'loading') {

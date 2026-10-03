@@ -11,6 +11,8 @@ import { LANGUAGES, setLanguage, getLanguage } from '../core/i18n.js';
 import { openModal, buildForm, bindForm, closeModal, confirmDialog, toastOk, toastErr, requestNotificationPermission } from '../core/ui.js';
 import { card, badge, attach } from '../core/parts.js';
 import { applyTheme } from '../core/theme.js';
+import { SUPABASE_CONFIGURED, getSession, signOut } from '../core/auth.js';
+import { getSyncStatus, onSyncStatus } from '../core/sync.js';
 
 const THEMES = ['light', 'dark', 'system'];
 
@@ -163,6 +165,8 @@ export function renderSettings(root) {
       </div>
       <p class="muted small">The interface switches between English and বাংলা. The study assistant answers in the selected language.</p>`)}
 
+    <div id="settingsSyncRoot"></div>
+
     ${card('Data management', `
       <p class="muted small">Everything is stored only in this browser (${esc(STORAGE_KEY)}, schema v${SCHEMA_VERSION}, about ${esc(bytes(size))}). Nothing is uploaded anywhere. Export a backup before clearing browser data or switching devices.</p>
       <div class="row-actions">
@@ -195,6 +199,39 @@ export function renderSettings(root) {
 
 function wire(root) {
   attach(root, ({ signal }) => {
+    
+    if (SUPABASE_CONFIGURED) {
+      const syncRoot = root.querySelector('#settingsSyncRoot');
+      const renderSync = async () => {
+        if (!syncRoot) return;
+        const session = await getSession();
+        if (session) {
+          const s = getSyncStatus();
+          syncRoot.innerHTML = card('Cloud Sync', `
+            <div class="setting-row">
+              <span>Signed in as <strong>${esc(session.user.email)}</strong></span>
+              ${badge(s === 'syncing' ? 'Syncing...' : s === 'error' ? 'Sync error' : 'Synced', s === 'error' ? 'danger' : 'success')}
+            </div>
+            <p class="muted small">Your data is automatically backed up to the cloud after every change.</p>
+            <button class="btn" data-signout>Sign out</button>
+          `);
+        } else {
+          syncRoot.innerHTML = card('Cloud Sync', `
+            <div class="setting-row">
+              <span>Not signed in</span>
+              ${badge('Offline', 'muted')}
+            </div>
+            <p class="muted small">Sign in to automatically sync your data across devices.</p>
+            <button class="btn primary" onclick="window.location.reload()">Sign In</button>
+          `);
+        }
+      };
+      
+      renderSync();
+      const unsub = onSyncStatus(renderSync);
+      signal.addEventListener('abort', unsub);
+    }
+
     root.addEventListener('change', (event) => {
       if (event.target.id === 'importFile' && event.target.files?.[0]) {
         importBackup(event.target.files[0]);
@@ -208,6 +245,11 @@ function wire(root) {
       if (el.hasAttribute('data-edit-profile')) return openProfileForm();
       if (el.hasAttribute('data-export')) return exportBackup();
       if (el.hasAttribute('data-reset')) return resetAll();
+      if (el.hasAttribute('data-signout')) {
+        await signOut();
+        window.location.reload();
+        return;
+      }
       if (el.hasAttribute('data-enable-notif')) {
         const result = await requestNotificationPermission();
         if (result === 'granted') { setSetting('notifications', true); toastOk('Notifications enabled.'); }

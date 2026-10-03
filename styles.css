@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
    ACADEMIC STUDY HELPER
    Premium Aesthetic UI
    Clean • Minimal • Academic • Futuristic
@@ -2294,3 +2294,92 @@ body.modal-open { overflow: hidden; }
   from { background-position: 200% 0; }
   to { background-position: -200% 0; }
 }
+
+
+/* --- Auth Views --- */
+.auth-wrap {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  background: var(--bg);
+  padding: 16px;
+  z-index: 9999;
+}
+
+.auth-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.auth-brand {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.auth-logo { font-size: 40px; display: block; margin-bottom: 8px; }
+.auth-brand h1 { font-size: 24px; margin: 0 0 8px; letter-spacing: -0.04em; }
+
+.auth-tabs {
+  display: flex;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.auth-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.auth-tab:hover { color: var(--text); }
+.auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.auth-form { display: grid; gap: 16px; margin-bottom: 24px; }
+
+.auth-divider {
+  text-align: center;
+  position: relative;
+  margin: 24px 0;
+}
+.auth-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--border);
+  z-index: 1;
+}
+.auth-divider span {
+  background: var(--card);
+  padding: 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+  position: relative;
+  z-index: 2;
+}
+
+.auth-oauth { display: grid; gap: 12px; }
+.oauth-btn { display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--hover); color: var(--text); }
+.oauth-btn:hover { background: var(--border); }
+.oauth-btn svg { width: 18px; height: 18px; }
+
+.auth-skip { text-align: center; margin-top: 32px; }
+.link-btn { background: none; border: none; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.link-btn:hover { color: var(--text); }
+
+.auth-panel { display: block; }
+.auth-panel.hidden { display: none; }
+.github { background: #24292e; color: #fff; }
+.github:hover { background: #1b1f23; }
+.google { background: #fff; color: #757575; border: 1px solid #ddd; }
+.google:hover { background: #f8f8f8; }

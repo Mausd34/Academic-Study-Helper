@@ -12,6 +12,23 @@
 
 </div>
 
+## 🧩 Project Base
+
+<p align="center">
+  <img src="assets/project-banner.svg" alt="Academic Study Helper project banner" width="1000" />
+</p>
+
+Academic Study Helper is a personal academic command center designed for students who want a single place to manage classes, tasks, attendance, notes, exam prep, skills, finance, and study focus. The project is built as a fast, installable PWA with an offline-first workflow and a local FastAPI backend for optional AI assistance.
+
+### Quick overview
+- Personal dashboard for academic life
+- Routine and attendance planning
+- Task, exam, note, and expense tracking
+- Focus timer and study statistics
+- Skill and career growth roadmap
+- Offline-first local-first experience
+- Ready for optional backend AI integration
+
 ---
 
 ## 👨‍💻 About the Developer

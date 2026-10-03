@@ -261,10 +261,12 @@ async function startApp() {
 let _appStarted = false;
 
 async function boot() {
+  const forceAuth = new URLSearchParams(window.location.search).get('auth') === '1';
+
   if (SUPABASE_CONFIGURED) {
     let authSkip = false;
     const user = await getUser();
-    
+
     onAuthChange(async ({ user: authUser }) => {
       if (authUser) {
         await enableSync(authUser.id);
@@ -276,18 +278,22 @@ async function boot() {
         }
       } else {
         disableSync();
-        if (_appStarted && !authSkip) {
-          window.location.reload();
-        }
       }
     });
 
-    if (!user && !authSkip) {
+    if (!user && forceAuth && !authSkip) {
+      const clearAuthQuery = () => {
+        const next = new URL(window.location.href);
+        next.searchParams.delete('auth');
+        window.history.replaceState({}, '', next);
+      };
+
       document.querySelector('.app-shell').style.display = 'none';
       const div = document.createElement('div');
       document.body.appendChild(div);
       renderLogin(div, () => {
         authSkip = true;
+        clearAuthQuery();
         div.remove();
         document.querySelector('.app-shell').style.display = '';
         _appStarted = true;

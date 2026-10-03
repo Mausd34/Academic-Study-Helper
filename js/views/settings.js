@@ -222,7 +222,7 @@ function wire(root) {
               ${badge('Offline', 'muted')}
             </div>
             <p class="muted small">Sign in to automatically sync your data across devices.</p>
-            <button class="btn primary" onclick="window.location.reload()">Sign In</button>
+            <button class="btn primary" data-signin>Sign In</button>
           `);
         }
       };
@@ -245,9 +245,17 @@ function wire(root) {
       if (el.hasAttribute('data-edit-profile')) return openProfileForm();
       if (el.hasAttribute('data-export')) return exportBackup();
       if (el.hasAttribute('data-reset')) return resetAll();
+      if (el.hasAttribute('data-signin')) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('auth', '1');
+        window.location.href = url.toString();
+        return;
+      }
       if (el.hasAttribute('data-signout')) {
         await signOut();
-        window.location.reload();
+        const url = new URL(window.location.href);
+        url.searchParams.delete('auth');
+        window.location.href = url.toString();
         return;
       }
       if (el.hasAttribute('data-enable-notif')) {

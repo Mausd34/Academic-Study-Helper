@@ -162,8 +162,8 @@ export async function askBackend(question, { language = 'en', state = {} } = {})
 
 export function backendMode() {
   return {
-    enabled: true,
-    url: BACKEND_URL,
-    note: 'Connected to the local FastAPI backend. Offline fallback remains active if the server is unavailable.',
+    enabled: false,
+    url: '',
+    note: 'Offline mode is active by default. Start the local FastAPI backend later if you want to enable the AI bridge.',
   };
 }
